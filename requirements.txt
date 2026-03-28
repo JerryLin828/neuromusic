@@ -1,16 +1,27 @@
-# Core
-torch>=2.0
-torchaudio>=2.0
-numpy
-scipy
-matplotlib
+# ==============================================================
+# neuromusic requirements
+#
+# INSTALL ORDER MATTERS — follow these steps exactly:
+#
+# 1. Install PyTorch first (exact versions for audiocraft 1.3.0):
+#      pip install torch==2.1.0 torchaudio==2.1.0 torchvision==0.16.0 \
+#          --index-url https://download.pytorch.org/whl/cu121
+#
+# 2. Install FFmpeg C libraries (needed by av):
+#      conda install -c conda-forge ffmpeg -y
+#      export PKG_CONFIG_PATH=$CONDA_PREFIX/lib/pkgconfig:$PKG_CONFIG_PATH
+#
+# 3. Install audiocraft:
+#      pip install audiocraft
+#
+# 4. Install remaining dependencies:
+#      pip install -r requirements.txt
+# ==============================================================
 
 # EEG emotion classification
-torcheeg
+# (torcheeg NOT needed — model architectures are vendored in src/biosignal/models.py)
 pytorch_lightning
-
-# Music generation (install on GPU machine)
-audiocraft
+mne
 
 # LLM bridge (Gemini)
 google-generativeai
@@ -25,6 +36,9 @@ gradio
 scikit-learn
 
 # Utilities
+numpy
+scipy
+matplotlib
 pyyaml
 tqdm
 pandas

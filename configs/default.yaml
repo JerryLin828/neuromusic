@@ -16,16 +16,17 @@ biosignal:
     model_name: "tsception"  # "tsception", "eegnet", or "dgcnn"
     # Update these with the best checkpoint paths after training.
     # The paths below are from a 5-epoch test run; retrain with --max-epochs 50 for production.
-    arousal_checkpoint: "checkpoints/dreamer/arousal/tsception/last.ckpt"
-    valence_checkpoint: "checkpoints/dreamer/valence/tsception/last.ckpt"
+    arousal_checkpoint: "checkpoints/dreamer/arousal/tsception/best-epoch=33-val_acc=0.7643.ckpt"
+    valence_checkpoint: "checkpoints/dreamer/valence/tsception/best-epoch=46-val_acc=0.7848.ckpt"
 
 # --- LLM Bridge (Emotion -> Music Prompt) ---
 bridge:
   # Available backends: "template", "gemini"
-  backend: "template"
+  # backend: "template"
+  backend: "gemini"
 
   gemini:
-    model: "gemini-2.0-flash"
+    model: "gemini-2.5-flash"
     # Set GEMINI_API_KEY or GOOGLE_API_KEY environment variable
 
 # --- Music Generation ---

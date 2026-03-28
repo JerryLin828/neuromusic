@@ -1,7 +1,10 @@
 # Data (large files, not tracked)
 data/raw/
 data/processed/
-outputs/
+
+# Test Samples
+*.npy
+evaluation/full_eval
 
 # Model checkpoints
 *.pth
@@ -9,7 +12,6 @@ outputs/
 *.ckpt
 *.bin
 *.safetensors
-checkpoints/
 
 # Python
 __pycache__/

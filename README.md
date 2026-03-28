@@ -8,10 +8,10 @@ EEG-driven therapeutic music generation. Detects a listener's emotional state fr
 EEG (14ch, 128 Hz)
   │
   ▼
-┌─────────────┐     ┌──────────────────┐     ┌──────────────┐
-│  TSCeption   │ ──▶ │ Affective Bridge │ ──▶ │   MusicGen   │ ──▶ 🔊 Audio
-│  (emotion)   │     │ (LLM/templates)  │     │  (text→music)│
-└─────────────┘     └──────────────────┘     └──────────────┘
+┌─────────────┐      ┌──────────────────┐     ┌──────────────┐
+│  TSCeption  │  ──▶ │ Affective Bridge │ ──▶ │   MusicGen   │ ──▶ 🔊 Audio
+│  (emotion)  │      │ (LLM/templates)  │     │  (text→music)│
+└─────────────┘      └──────────────────┘     └──────────────┘
  valence/arousal      therapeutic prompt       waveform (32kHz)
 ```
 
@@ -92,4 +92,4 @@ neuromusic/
 - Grace Yuan (yuangc@mit.edu)
 - Aimee Yu (aimeeyu@mit.edu)
 
-MIT 6.S985 — Biological Signal Processing & AI, Spring 2026
+MIT 6.S985 — Multimodal AI, Spring 2026

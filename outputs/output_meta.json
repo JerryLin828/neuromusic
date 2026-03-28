@@ -1,0 +1,14 @@
+{
+  "emotion": {
+    "valence": 0.7218770980834961,
+    "arousal": 0.1105339378118515,
+    "valence_class": "high",
+    "arousal_class": "low",
+    "quadrant": "HVLA",
+    "confidence": 0.8056715801358223
+  },
+  "therapeutic_prompt": "A gentle, flowing piece at",
+  "audio_file": "output.wav",
+  "sample_rate": 32000,
+  "duration_seconds": 15.0
+}

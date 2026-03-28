@@ -16,21 +16,28 @@ Paper: Katsigiannis & Ramzan, IEEE JBHI 2018 (DREAMER)
 Usage:
     python data/scripts/download_dreamer.py
     python data/scripts/download_dreamer.py --output-dir data/raw/dreamer
+    python data/scripts/download_dreamer.py --cache-dir /data/scratch/user/hf_cache
 """
 
 import argparse
+import os
 import shutil
 from pathlib import Path
 
 import numpy as np
 
 
-def download_dreamer(output_dir: Path):
+def download_dreamer(output_dir: Path, cache_dir: str | None = None):
     """Download DREAMERA and DREAMERV datasets from HuggingFace."""
     try:
         from huggingface_hub import hf_hub_download
     except ImportError:
         raise ImportError("pip install huggingface_hub")
+
+    # Use a custom cache dir to avoid filling up a small home directory
+    if cache_dir:
+        os.environ["HF_HOME"] = cache_dir
+        os.environ["HF_HUB_CACHE"] = cache_dir
 
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -72,9 +79,17 @@ def download_dreamer(output_dir: Path):
                 repo_id=ds_info["repo"],
                 filename=remote_name,
                 repo_type="dataset",
+                force_download=True,
             )
             shutil.copy2(cached_path, target)
-            print(f"  → {target}")
+            cached_size = Path(cached_path).stat().st_size
+            target_size = target.stat().st_size
+            if target_size != cached_size:
+                raise RuntimeError(
+                    f"Copy failed: {target} is {target_size} bytes "
+                    f"but source is {cached_size} bytes"
+                )
+            print(f"  → {target} ({target_size / 1e6:.1f} MB)")
 
         for fold_file in ds_info["folds"]:
             target = dim_dir / fold_file
@@ -100,7 +115,7 @@ def _verify(output_dir: Path):
 
     for dim in ["arousal", "valence"]:
         dim_dir = output_dir / dim
-        X = np.load(dim_dir / "X.npy", mmap_mode="r")
+        X = np.load(dim_dir / "X.npy")
         y = np.load(dim_dir / "y.npy")
 
         class_counts = dict(zip(*np.unique(y, return_counts=True)))
@@ -117,6 +132,8 @@ def _verify(output_dir: Path):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Download DREAMER from HuggingFace")
     parser.add_argument("--output-dir", type=str, default="data/raw/dreamer")
+    parser.add_argument("--cache-dir", type=str, default=None,
+                        help="HuggingFace cache dir (use if home dir has small quota)")
     args = parser.parse_args()
 
-    download_dreamer(Path(args.output_dir))
+    download_dreamer(Path(args.output_dir), args.cache_dir)

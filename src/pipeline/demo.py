@@ -3,7 +3,7 @@ Gradio interactive demo for the NeuroMusic pipeline.
 
 Launch with:
     python -m src.pipeline.demo
-    python -m src.pipeline.demo --config configs/default.yaml --share
+    python -m src.pipeline.demo --config configs/default.yaml
 """
 
 import argparse
@@ -15,6 +15,7 @@ import numpy as np
 from src.biosignal.classifier import EmotionResult
 from src.bridge.prompt_generator import EmotionState, THERAPEUTIC_TEMPLATES
 from src.pipeline.pipeline import TherapeuticSoundtrackPipeline
+from src.utils.io import load_config, add_config_arg
 from evaluation.evaluate import generate_baseline_prompt
 
 logger = logging.getLogger(__name__)
@@ -26,7 +27,7 @@ QUADRANT_INFO = {
     "LVLA": {"label": "Sad / Depressed",     "color": "#3498db", "therapy": "Uplifting, gently energizing music"},
 }
 
-EXAMPLE_SAMPLES = [42, 100, 5000, 50000]
+DEFAULT_EXAMPLE_SAMPLES = [42, 100, 5000, 50000]
 
 
 def _make_emotion_plot(valence: float, arousal: float, quadrant: str):
@@ -104,8 +105,15 @@ def _format_emotion_card(valence: float, arousal: float, quadrant: str, confiden
     )
 
 
-def create_demo(pipeline: TherapeuticSoundtrackPipeline, data_dir: str = "data/raw/dreamer"):
+def create_demo(
+    pipeline: TherapeuticSoundtrackPipeline,
+    data_dir: str = "data/raw/dreamer",
+    example_samples: list[int] | None = None,
+):
     """Build the Gradio interface."""
+    if example_samples is None:
+        example_samples = DEFAULT_EXAMPLE_SAMPLES
+
     try:
         import gradio as gr
     except ImportError:
@@ -240,8 +248,9 @@ def create_demo(pipeline: TherapeuticSoundtrackPipeline, data_dir: str = "data/r
                     "Ground-truth labels are shown for comparison."
                 )
                 sample_idx = gr.Number(
-                    value=42, label="Sample Index",
-                    info=f"Try: {', '.join(str(s) for s in EXAMPLE_SAMPLES)}",
+                    value=example_samples[0] if example_samples else 42,
+                    label="Sample Index",
+                    info=f"Try: {', '.join(str(s) for s in example_samples)}",
                     precision=0,
                 )
                 btn_dreamer = gr.Button("Run Full Pipeline", variant="primary")
@@ -322,10 +331,7 @@ def create_demo(pipeline: TherapeuticSoundtrackPipeline, data_dir: str = "data/r
 
 def main():
     parser = argparse.ArgumentParser(description="NeuroMusic — Gradio Demo")
-    parser.add_argument("--config", type=str, default="configs/default.yaml")
-    parser.add_argument("--data-dir", type=str, default="data/raw/dreamer")
-    parser.add_argument("--share", action="store_true", help="Create a public Gradio link")
-    parser.add_argument("--port", type=int, default=7860)
+    add_config_arg(parser)
     args = parser.parse_args()
 
     logging.basicConfig(
@@ -333,9 +339,20 @@ def main():
         format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
     )
 
+    cfg = load_config(args.config)
+    paths = cfg.get("paths", {})
+    demo_cfg = cfg.get("demo", {})
+
     pipeline = TherapeuticSoundtrackPipeline.from_config(args.config)
-    demo = create_demo(pipeline, data_dir=args.data_dir)
-    demo.launch(share=args.share, server_port=args.port)
+    demo = create_demo(
+        pipeline,
+        data_dir=paths.get("data_dir", "data/raw/dreamer"),
+        example_samples=demo_cfg.get("example_samples", DEFAULT_EXAMPLE_SAMPLES),
+    )
+    demo.launch(
+        share=demo_cfg.get("share", False),
+        server_port=demo_cfg.get("port", 7860),
+    )
 
 
 if __name__ == "__main__":

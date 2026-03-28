@@ -7,7 +7,8 @@ Metrics:
   3. Baseline comparisons (random prompt, non-inverted, fixed prompt)
 
 Usage:
-    python -m evaluation.evaluate --result-dir outputs
+    python -m evaluation.evaluate
+    python -m evaluation.evaluate --config configs/default.yaml
 """
 
 from __future__ import annotations
@@ -19,6 +20,8 @@ from pathlib import Path
 from typing import Optional
 
 import numpy as np
+
+from src.utils.io import load_config, add_config_arg
 
 logger = logging.getLogger(__name__)
 
@@ -232,18 +235,17 @@ def run_evaluation(
 
 def main():
     parser = argparse.ArgumentParser(description="Evaluate Therapeutic Soundtrack Pipeline")
-    parser.add_argument(
-        "--result-dir", type=str, default="outputs",
-        help="Directory with pipeline outputs (*_meta.json + *.wav)",
-    )
-    parser.add_argument(
-        "--output", type=str, default="evaluation/results.json",
-        help="Path to save evaluation report",
-    )
+    add_config_arg(parser)
     args = parser.parse_args()
 
     logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
-    run_evaluation(args.result_dir, args.output)
+
+    cfg = load_config(args.config)
+    paths = cfg.get("paths", {})
+    result_dir = paths.get("output_dir", "outputs")
+    output_path = Path(paths.get("eval_dir", "evaluation/full_eval")) / "results.json"
+
+    run_evaluation(result_dir, output_path)
 
 
 if __name__ == "__main__":

@@ -102,13 +102,13 @@ class TherapeuticSoundtrackPipeline:
         music_cfg = cfg.get("musicgen", {})
         music_gen = MusicGenerator(**music_cfg)
 
-        pipeline_cfg = cfg.get("pipeline", {})
+        paths_cfg = cfg.get("paths", {})
 
         return cls(
             classifier=classifier,
             prompt_generator=prompt_gen,
             music_generator=music_gen,
-            output_dir=pipeline_cfg.get("output_dir", "outputs"),
+            output_dir=paths_cfg.get("output_dir", "outputs"),
         )
 
     def generate(self, eeg_data: np.ndarray) -> PipelineResult:

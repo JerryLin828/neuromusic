@@ -58,19 +58,20 @@ pip install -r requirements.txt
 
 ## Quick Start
 
+All scripts read from `configs/default.yaml` — no CLI flags needed for standard runs.
+
 ```bash
 # Download DREAMER dataset from HuggingFace (~5 GB)
 python data/scripts/download_dreamer.py
 
 # Train emotion classifiers (arousal + valence)
-python src/biosignal/train_dreamer.py --dimension arousal --max-epochs 50
-python src/biosignal/train_dreamer.py --dimension valence --max-epochs 50
+python -m src.biosignal.train_dreamer
 
 # Run the full pipeline on a DREAMER sample
 python -m src.pipeline.run --dreamer-sample 42
 
-# Run evaluation (3 samples per quadrant, 10s audio)
-python -m evaluation.run_full_eval --data-dir data/raw/dreamer --n-per-quadrant 3 --duration 10
+# Run evaluation
+python -m evaluation.run_full_eval
 
 # (Optional) Set Gemini API for richer prompts
 export GEMINI_API_KEY="your-key"
@@ -78,6 +79,8 @@ export GEMINI_API_KEY="your-key"
 # (Optional) Launch Gradio demo
 python -m src.pipeline.demo
 ```
+
+Edit `configs/default.yaml` to change paths, hyperparameters, model choices, etc.
 
 ## Project Structure
 
@@ -96,10 +99,12 @@ neuromusic/
 │   │   └── prompt_generator.py # Emotion → therapeutic music prompt
 │   ├── musicgen/
 │   │   └── generator.py        # MusicGen wrapper (audiocraft)
-│   └── pipeline/
-│       ├── pipeline.py         # End-to-end orchestration
-│       ├── run.py              # CLI entry point
-│       └── demo.py             # Gradio web demo
+│   ├── pipeline/
+│   │   ├── pipeline.py         # End-to-end orchestration
+│   │   ├── run.py              # CLI entry point
+│   │   └── demo.py             # Gradio web demo
+│   └── utils/
+│       └── io.py               # Config loading, shared I/O helpers
 ├── evaluation/
 │   ├── evaluate.py             # CLAP score, accuracy metrics
 │   └── run_full_eval.py        # Full evaluation harness

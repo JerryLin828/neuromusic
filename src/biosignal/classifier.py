@@ -56,8 +56,8 @@ class EmotionClassifier:
         classifier = EmotionClassifier(
             backend="dreamer",
             model_name="tsception",
-            arousal_checkpoint="checkpoints/dreamer/arousal/tsception/fold_0/best.ckpt",
-            valence_checkpoint="checkpoints/dreamer/valence/tsception/fold_0/best.ckpt",
+            arousal_checkpoint="checkpoints/dreamer/arousal/tsception/best.ckpt",
+            valence_checkpoint="checkpoints/dreamer/valence/tsception/best.ckpt",
         )
         result = classifier.classify(eeg_data)  # (14, 256) at 128 Hz
     """

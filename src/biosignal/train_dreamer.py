@@ -16,15 +16,18 @@ Evaluation protocol:
   published accuracy numbers refer to.
 
 Usage:
-    python -m src.biosignal.train_dreamer --dimension arousal --model tsception
-    python -m src.biosignal.train_dreamer --dimension valence --model eegnet
-    python -m src.biosignal.train_dreamer --dimension both --model tsception
+    python -m src.biosignal.train_dreamer --dimension arousal
+    python -m src.biosignal.train_dreamer --dimension valence
+    python -m src.biosignal.train_dreamer --dimension both
+    python -m src.biosignal.train_dreamer --dimension both --model eegnet
 """
 
 import argparse
 import json
 import logging
 from pathlib import Path
+
+from src.utils.io import load_config, add_config_arg
 
 import numpy as np
 import torch
@@ -39,7 +42,7 @@ N_CHANNELS = 14
 N_TIMEPOINTS = 256
 SAMPLING_RATE = 128
 N_CLASSES = 2
-TEST_FRACTION = 0.2
+DEFAULT_TEST_FRACTION = 0.2
 
 
 def build_model(model_name: str):
@@ -110,11 +113,16 @@ class DREAMERClassifier(pl.LightningModule):
         )
 
 
-def load_dreamer_subject_dependent(data_dir: Path, dimension: str):
+def load_dreamer_subject_dependent(
+    data_dir: Path,
+    dimension: str,
+    test_fraction: float = DEFAULT_TEST_FRACTION,
+    seed: int = 42,
+):
     """
     Load DREAMER data and create subject-dependent train/test splits.
 
-    For each subject, we do a stratified random 80/20 split of their windows.
+    For each subject, we do a stratified random split of their windows.
     This preserves class balance in both train and test, and is the standard
     evaluation protocol in published DREAMER papers (e.g., Song et al. DGCNN,
     Zhang et al. GCB-Net).
@@ -137,7 +145,7 @@ def load_dreamer_subject_dependent(data_dir: Path, dimension: str):
     unique_subjects = np.unique(subject_ids)
     logger.info(f"Loaded DREAMER {dimension}: {X.shape}, {len(unique_subjects)} subjects")
 
-    rng = np.random.RandomState(42)
+    rng = np.random.RandomState(seed)
     train_indices = []
     test_per_subject = {}
 
@@ -145,13 +153,12 @@ def load_dreamer_subject_dependent(data_dir: Path, dimension: str):
         s_indices = np.where(subject_ids == s)[0]
         s_labels = y[s_indices]
 
-        # Stratified split: separately shuffle each class, take 20% from each
         s_train = []
         s_test = []
         for cls in [0, 1]:
             cls_idx = s_indices[s_labels == cls]
             rng.shuffle(cls_idx)
-            n_test = max(1, int(len(cls_idx) * TEST_FRACTION))
+            n_test = max(1, int(len(cls_idx) * test_fraction))
             s_test.extend(cls_idx[:n_test].tolist())
             s_train.extend(cls_idx[n_test:].tolist())
 
@@ -215,31 +222,36 @@ def train_dimension(
     max_epochs: int = 50,
     batch_size: int = 64,
     lr: float = 1e-4,
+    weight_decay: float = 1e-4,
+    val_fraction: float = 0.1,
+    test_fraction: float = 0.2,
+    early_stopping_patience: int = 10,
+    seed: int = 42,
+    num_workers: int = 0,
 ):
     """Train on pooled subject-dependent splits for one dimension."""
     X_train, y_train, X_test_per_subject, y_test_per_subject = \
-        load_dreamer_subject_dependent(data_dir, dimension)
+        load_dreamer_subject_dependent(data_dir, dimension, test_fraction, seed)
 
     X_train_t = prepare_input(X_train, model_name)
     y_train_t = torch.from_numpy(y_train).long()
 
-    # Use 10% of training data as validation for early stopping
-    n_val = int(len(X_train_t) * 0.1)
+    n_val = int(len(X_train_t) * val_fraction)
     perm = torch.randperm(len(X_train_t))
     val_idx = perm[:n_val]
     train_idx = perm[n_val:]
 
     train_loader = DataLoader(
         TensorDataset(X_train_t[train_idx], y_train_t[train_idx]),
-        batch_size=batch_size, shuffle=True, num_workers=0,
+        batch_size=batch_size, shuffle=True, num_workers=num_workers,
     )
     val_loader = DataLoader(
         TensorDataset(X_train_t[val_idx], y_train_t[val_idx]),
-        batch_size=batch_size, shuffle=False, num_workers=0,
+        batch_size=batch_size, shuffle=False, num_workers=num_workers,
     )
 
     model = build_model(model_name)
-    lit_model = DREAMERClassifier(model, lr=lr)
+    lit_model = DREAMERClassifier(model, lr=lr, weight_decay=weight_decay)
 
     ckpt_dir = output_dir / dimension / model_name
     checkpoint_callback = ModelCheckpoint(
@@ -251,7 +263,7 @@ def train_dimension(
         save_last=True,
     )
     early_stop = EarlyStopping(
-        monitor="val_acc", mode="max", patience=10, verbose=True,
+        monitor="val_acc", mode="max", patience=early_stopping_patience, verbose=True,
     )
 
     trainer = pl.Trainer(
@@ -270,8 +282,14 @@ def train_dimension(
 
     trainer.fit(lit_model, train_loader, val_loader)
 
-    # Load best checkpoint for evaluation
+    # Create stable best.ckpt symlink so the config doesn't need updating after retraining
     best_path = checkpoint_callback.best_model_path
+    if best_path:
+        stable_link = ckpt_dir / "best.ckpt"
+        stable_link.unlink(missing_ok=True)
+        stable_link.symlink_to(Path(best_path).resolve())
+        logger.info(f"  Symlinked {stable_link} -> {best_path}")
+
     if best_path:
         lit_model = DREAMERClassifier.load_from_checkpoint(
             best_path, model=build_model(model_name), lr=lr,
@@ -316,15 +334,12 @@ def train_dimension(
 
 def main():
     parser = argparse.ArgumentParser(description="Train DREAMER emotion classifiers")
-    parser.add_argument("--data-dir", type=str, default="data/raw/dreamer")
-    parser.add_argument("--dimension", type=str, default="arousal",
+    add_config_arg(parser)
+    parser.add_argument("--dimension", type=str, default="both",
                         choices=["arousal", "valence", "both"])
-    parser.add_argument("--model", type=str, default="tsception",
-                        choices=["tsception", "eegnet"])
-    parser.add_argument("--output-dir", type=str, default="checkpoints/dreamer")
-    parser.add_argument("--max-epochs", type=int, default=50)
-    parser.add_argument("--batch-size", type=int, default=64)
-    parser.add_argument("--lr", type=float, default=1e-4)
+    parser.add_argument("--model", type=str, default=None,
+                        choices=["tsception", "eegnet"],
+                        help="Override model from config")
     args = parser.parse_args()
 
     logging.basicConfig(
@@ -332,17 +347,28 @@ def main():
         format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
     )
 
+    cfg = load_config(args.config)
+    paths = cfg.get("paths", {})
+    training = cfg.get("training", {})
+    model_name = args.model or cfg["biosignal"]["dreamer"]["model_name"]
+
     dimensions = ["arousal", "valence"] if args.dimension == "both" else [args.dimension]
 
     for dim in dimensions:
         train_dimension(
-            data_dir=Path(args.data_dir),
+            data_dir=Path(paths.get("data_dir", "data/raw/dreamer")),
             dimension=dim,
-            model_name=args.model,
-            output_dir=Path(args.output_dir),
-            max_epochs=args.max_epochs,
-            batch_size=args.batch_size,
-            lr=args.lr,
+            model_name=model_name,
+            output_dir=Path(paths.get("checkpoint_dir", "checkpoints/dreamer")),
+            max_epochs=training.get("max_epochs", 50),
+            batch_size=training.get("batch_size", 64),
+            lr=training.get("lr", 1e-4),
+            weight_decay=training.get("weight_decay", 1e-4),
+            val_fraction=training.get("val_fraction", 0.1),
+            test_fraction=training.get("test_fraction", 0.2),
+            early_stopping_patience=training.get("early_stopping_patience", 10),
+            seed=training.get("seed", 42),
+            num_workers=training.get("num_workers", 0),
         )
 
 

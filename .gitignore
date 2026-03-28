@@ -47,8 +47,9 @@ env/
 *.log
 wandb/
 runs/
+lightning_logs/
 
-# External cloned repos (tracked via git submodule or re-cloned)
+# External cloned repos
 external/
 
 # Misc

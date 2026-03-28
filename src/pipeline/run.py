@@ -2,14 +2,14 @@
 CLI entry point for the Therapeutic Soundtrack Pipeline.
 
 Usage:
-    # With a DREAMER .npy sample (14 channels, 256 timepoints):
+    # With a DREAMER sample (no extra flags needed):
+    python -m src.pipeline.run --dreamer-sample 42
+
+    # With a .npy file:
     python -m src.pipeline.run --input sample_eeg.npy
 
-    # With a custom config:
-    python -m src.pipeline.run --config configs/default.yaml --input sample.npy
-
-    # From a specific sample index in the DREAMER dataset:
-    python -m src.pipeline.run --dreamer-sample 42 --dreamer-dim arousal
+    # Override dimension or output name:
+    python -m src.pipeline.run --dreamer-sample 42 --dreamer-dim valence --name test1
 """
 
 import argparse
@@ -19,6 +19,7 @@ from pathlib import Path
 import numpy as np
 
 from src.pipeline.pipeline import TherapeuticSoundtrackPipeline
+from src.utils.io import load_config, add_config_arg
 
 
 def load_eeg_input(path: str) -> np.ndarray:
@@ -51,16 +52,13 @@ def load_dreamer_sample(data_dir: str, dim: str, index: int) -> tuple[np.ndarray
 
 def main():
     parser = argparse.ArgumentParser(description="Therapeutic Soundtrack Generator")
-    parser.add_argument("--config", type=str, default="configs/default.yaml")
+    add_config_arg(parser)
     parser.add_argument("--input", type=str, default=None,
                         help="Path to EEG input file (.npy, .npz)")
     parser.add_argument("--dreamer-sample", type=int, default=None,
                         help="Load a specific sample from DREAMER dataset by index")
-    parser.add_argument("--dreamer-dir", type=str, default="data/raw/dreamer",
-                        help="Path to DREAMER data directory")
     parser.add_argument("--dreamer-dim", type=str, default="arousal",
                         choices=["arousal", "valence"])
-    parser.add_argument("--output-dir", type=str, default=None)
     parser.add_argument("--name", type=str, default="output")
     args = parser.parse_args()
 
@@ -69,16 +67,19 @@ def main():
         format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
     )
 
-    pipeline = TherapeuticSoundtrackPipeline.from_config(args.config)
+    cfg = load_config(args.config)
+    paths = cfg.get("paths", {})
+    data_dir = paths.get("data_dir", "data/raw/dreamer")
+    output_dir = Path(paths.get("output_dir", "outputs"))
 
-    if args.output_dir:
-        pipeline.output_dir = Path(args.output_dir)
+    pipeline = TherapeuticSoundtrackPipeline.from_config(args.config)
+    pipeline.output_dir = output_dir
 
     if args.input:
         eeg_data = load_eeg_input(args.input)
     elif args.dreamer_sample is not None:
         eeg_data, ground_truth = load_dreamer_sample(
-            args.dreamer_dir, args.dreamer_dim, args.dreamer_sample,
+            data_dir, args.dreamer_dim, args.dreamer_sample,
         )
         gt_label = "high" if ground_truth == 1 else "low"
         print(f"DREAMER sample {args.dreamer_sample}: "

@@ -1,48 +1,72 @@
-# Default configuration for the Personalized Soundtrack Generator
+# NeuroMusic — Unified Configuration
 #
-# SETUP STEPS (before running the pipeline):
-#   1. Download DREAMER data: python data/scripts/download_dreamer.py
-#   2. Install deps:          pip install -r requirements.txt
-#   3. Train classifiers:     python -m src.biosignal.train_dreamer --dimension both --model tsception
-#   4. Update checkpoint paths below with the actual best checkpoint paths
-#   5. (Optional) Set GEMINI_API_KEY for the LLM bridge
-#   6. Install audiocraft for MusicGen (GPU machine)
+# Every script reads from this file. Run any script with:
+#   python -m <module> --config configs/default.yaml
+#
+# Or just use the default (no flags needed):
+#   python -m src.pipeline.run --dreamer-sample 42
+#   python -m src.biosignal.train_dreamer --dimension arousal
+#   python -m evaluation.run_full_eval
+#   python -m src.pipeline.demo
+#   python data/scripts/download_dreamer.py
+
+# --- Paths ---
+# All paths are relative to the project root unless absolute.
+paths:
+  data_dir: "data/raw/dreamer"           # DREAMER dataset root
+  checkpoint_dir: "checkpoints/dreamer"   # training output root
+  output_dir: "outputs"                   # pipeline output
+  eval_dir: "evaluation/full_eval"        # evaluation output
+  hf_cache_dir: null                      # HuggingFace cache (null = system default; set for cluster use)
 
 # --- EEG Emotion Classification ---
 biosignal:
-  backend: "dreamer"
+  backend: "dreamer"                      # only "dreamer" supported currently
 
   dreamer:
-    model_name: "tsception"  # "tsception", "eegnet", or "dgcnn"
-    # Update these with the best checkpoint paths after training.
-    # The paths below are from a 5-epoch test run; retrain with --max-epochs 50 for production.
-    arousal_checkpoint: "checkpoints/dreamer/arousal/tsception/best-epoch=33-val_acc=0.7643.ckpt"
-    valence_checkpoint: "checkpoints/dreamer/valence/tsception/best-epoch=46-val_acc=0.7848.ckpt"
+    model_name: "tsception"               # "tsception" or "eegnet"
+    arousal_checkpoint: "checkpoints/dreamer/arousal/tsception/best.ckpt"
+    valence_checkpoint: "checkpoints/dreamer/valence/tsception/best.ckpt"
+
+# --- Training ---
+training:
+  max_epochs: 50
+  batch_size: 64
+  lr: 1.0e-4
+  weight_decay: 1.0e-4
+  val_fraction: 0.1                       # fraction of training data used for validation
+  test_fraction: 0.2                      # per-subject test split fraction
+  early_stopping_patience: 10
+  seed: 42
+  num_workers: 0                          # dataloader workers (0 = main process)
 
 # --- LLM Bridge (Emotion -> Music Prompt) ---
 bridge:
-  # Available backends: "template", "gemini"
-  # backend: "template"
-  backend: "gemini"
+  backend: "gemini"                       # "template" or "gemini"
 
   gemini:
-    model: "gemini-2.5-flash"
+    model: "gemini-2.5-flash"             # Gemini model name
+    temperature: 0.7
+    max_output_tokens: 200
     # Set GEMINI_API_KEY or GOOGLE_API_KEY environment variable
 
 # --- Music Generation ---
 musicgen:
-  model_name: "facebook/musicgen-small"  # small/medium/large/melody
-  duration: 15  # seconds
+  model_name: "facebook/musicgen-small"   # small / medium / large / melody
+  duration: 15                            # seconds of audio to generate
   temperature: 1.0
   top_k: 250
   top_p: 0.0
   cfg_coef: 3.0
 
-# --- Pipeline ---
-pipeline:
-  output_dir: "outputs"
-
 # --- Evaluation ---
 evaluation:
-  num_samples: 50
-  metrics: ["emotion_accuracy", "clap_score"]
+  n_per_quadrant: 3                       # samples per emotion quadrant
+  duration: 10.0                          # audio duration for eval (can differ from musicgen.duration)
+  seed: 42
+
+# --- Demo ---
+demo:
+  port: 7860
+  share: false
+  example_samples: [42, 100, 5000, 50000]

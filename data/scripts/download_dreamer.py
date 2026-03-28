@@ -7,7 +7,7 @@ These are preprocessed by the MONSTER benchmark (Monash) using TorchEEG:
   - 2-second windows (256 samples), already filtered and cropped
   - Binary labels: arousal (low/high), valence (low/high)
   - 5-fold cross-validation splits by participant
-  - 170,246 total samples from 23 subjects × 18 stimuli
+  - 170,246 total samples from 23 subjects x 18 stimuli
 
 Source: https://huggingface.co/datasets/monster-monash/DREAMERA
 Paper: Katsigiannis & Ramzan, IEEE JBHI 2018 (DREAMER)
@@ -15,8 +15,7 @@ Paper: Katsigiannis & Ramzan, IEEE JBHI 2018 (DREAMER)
 
 Usage:
     python data/scripts/download_dreamer.py
-    python data/scripts/download_dreamer.py --output-dir data/raw/dreamer
-    python data/scripts/download_dreamer.py --cache-dir /data/scratch/user/hf_cache
+    python data/scripts/download_dreamer.py --config configs/default.yaml
 """
 
 import argparse
@@ -26,6 +25,8 @@ from pathlib import Path
 
 import numpy as np
 
+from src.utils.io import load_config, add_config_arg
+
 
 def download_dreamer(output_dir: Path, cache_dir: str | None = None):
     """Download DREAMERA and DREAMERV datasets from HuggingFace."""
@@ -34,7 +35,6 @@ def download_dreamer(output_dir: Path, cache_dir: str | None = None):
     except ImportError:
         raise ImportError("pip install huggingface_hub")
 
-    # Use a custom cache dir to avoid filling up a small home directory
     if cache_dir:
         os.environ["HF_HOME"] = cache_dir
         os.environ["HF_HUB_CACHE"] = cache_dir
@@ -89,7 +89,7 @@ def download_dreamer(output_dir: Path, cache_dir: str | None = None):
                     f"Copy failed: {target} is {target_size} bytes "
                     f"but source is {cached_size} bytes"
                 )
-            print(f"  → {target} ({target_size / 1e6:.1f} MB)")
+            print(f"  -> {target} ({target_size / 1e6:.1f} MB)")
 
         for fold_file in ds_info["folds"]:
             target = dim_dir / fold_file
@@ -131,9 +131,13 @@ def _verify(output_dir: Path):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Download DREAMER from HuggingFace")
-    parser.add_argument("--output-dir", type=str, default="data/raw/dreamer")
-    parser.add_argument("--cache-dir", type=str, default=None,
-                        help="HuggingFace cache dir (use if home dir has small quota)")
+    add_config_arg(parser)
     args = parser.parse_args()
 
-    download_dreamer(Path(args.output_dir), args.cache_dir)
+    cfg = load_config(args.config)
+    paths = cfg.get("paths", {})
+
+    download_dreamer(
+        output_dir=Path(paths.get("data_dir", "data/raw/dreamer")),
+        cache_dir=paths.get("hf_cache_dir"),
+    )

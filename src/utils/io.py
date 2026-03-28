@@ -1,5 +1,6 @@
-"""Shared I/O utilities."""
+"""Shared I/O and config utilities."""
 
+import argparse
 from pathlib import Path
 import yaml
 import json
@@ -7,11 +8,21 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+DEFAULT_CONFIG = "configs/default.yaml"
 
-def load_config(path: str | Path) -> dict:
+
+def load_config(path: str | Path = DEFAULT_CONFIG) -> dict:
     """Load a YAML config file."""
     with open(path) as f:
         return yaml.safe_load(f)
+
+
+def add_config_arg(parser: argparse.ArgumentParser) -> None:
+    """Add the standard --config argument to any argparse parser."""
+    parser.add_argument(
+        "--config", type=str, default=DEFAULT_CONFIG,
+        help=f"Path to YAML config file (default: {DEFAULT_CONFIG})",
+    )
 
 
 def save_json(data: dict, path: str | Path):

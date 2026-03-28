@@ -64,8 +64,8 @@ python -m src.pipeline.demo
 
 ## Team
 
+- Linrui Ma (linrui@mit.edu)
 - Grace Yuan (yuangc@mit.edu)
 - Aimee Yu (aimeeyu@mit.edu)
-- Linrui Ma (linrui@mit.edu)
 
 MIT 6.S985 Project

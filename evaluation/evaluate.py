@@ -127,7 +127,7 @@ def evaluate_clap_score(
     audio_embeddings = torch.nn.functional.normalize(audio_embeddings, dim=-1)
     text_embeddings = torch.nn.functional.normalize(text_embeddings, dim=-1)
 
-    scores = torch.sum(audio_embeddings * text_embeddings, dim=-1).cpu().numpy()
+    scores = torch.sum(audio_embeddings * text_embeddings, dim=-1).detach().cpu().numpy()
 
     results = {
         "mean": float(np.mean(scores)),

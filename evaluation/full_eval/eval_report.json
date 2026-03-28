@@ -1,0 +1,376 @@
+{
+  "n_samples": 12,
+  "emotion_classification": {
+    "quadrant_accuracy": "9/12 (75.0%)",
+    "per_sample": [
+      {
+        "idx": 8351,
+        "gt": "HVHA",
+        "pred": "HVHA",
+        "correct": true
+      },
+      {
+        "idx": 126602,
+        "gt": "HVHA",
+        "pred": "HVHA",
+        "correct": true
+      },
+      {
+        "idx": 96122,
+        "gt": "HVHA",
+        "pred": "HVHA",
+        "correct": true
+      },
+      {
+        "idx": 4815,
+        "gt": "HVLA",
+        "pred": "HVLA",
+        "correct": true
+      },
+      {
+        "idx": 148379,
+        "gt": "HVLA",
+        "pred": "LVLA",
+        "correct": false
+      },
+      {
+        "idx": 95153,
+        "gt": "HVLA",
+        "pred": "HVLA",
+        "correct": true
+      },
+      {
+        "idx": 45949,
+        "gt": "LVHA",
+        "pred": "LVHA",
+        "correct": true
+      },
+      {
+        "idx": 43939,
+        "gt": "LVHA",
+        "pred": "LVHA",
+        "correct": true
+      },
+      {
+        "idx": 112575,
+        "gt": "LVHA",
+        "pred": "HVHA",
+        "correct": false
+      },
+      {
+        "idx": 7659,
+        "gt": "LVLA",
+        "pred": "LVHA",
+        "correct": false
+      },
+      {
+        "idx": 111194,
+        "gt": "LVLA",
+        "pred": "LVLA",
+        "correct": true
+      },
+      {
+        "idx": 69802,
+        "gt": "LVLA",
+        "pred": "LVLA",
+        "correct": true
+      }
+    ]
+  },
+  "clap_scores": {
+    "therapeutic": {
+      "mean": 0.4937157928943634,
+      "std": 0.0710715502500534
+    },
+    "random": {
+      "mean": 0.06187732517719269,
+      "std": 0.06692357361316681
+    },
+    "fixed_calm": {
+      "mean": 0.34306612610816956,
+      "std": 0.05090663209557533
+    },
+    "non_inverted": {
+      "mean": 0.23358887434005737,
+      "std": 0.14007484912872314
+    }
+  },
+  "samples": [
+    {
+      "sample_idx": 8351,
+      "gt_quadrant": "HVHA",
+      "gt_arousal": "high",
+      "gt_valence": "high",
+      "pred_quadrant": "HVHA",
+      "pred_arousal": 0.9600022435188293,
+      "pred_valence": 0.9626463651657104,
+      "pred_confidence": 0.9613243043422699,
+      "correct_quadrant": true,
+      "audio_files": {
+        "therapeutic": "HVHA_0_therapeutic.wav",
+        "random": "HVHA_0_random.wav",
+        "fixed_calm": "HVHA_0_fixed_calm.wav",
+        "non_inverted": "HVHA_0_non_inverted.wav"
+      },
+      "prompts": {
+        "therapeutic": "A meditative ambient soundscape with flowing strings and soft nature textures, serene and spacious, around 70 BPM. Gradually calming with gentle harmonic movement and a sense of stillness.",
+        "random": "A lively jazz piece with saxophone and drums, energetic and improvisational",
+        "fixed_calm": "Calm relaxing music",
+        "non_inverted": "A high-energy celebratory piece with bright brass and fast drums, 130 BPM"
+      }
+    },
+    {
+      "sample_idx": 126602,
+      "gt_quadrant": "HVHA",
+      "gt_arousal": "high",
+      "gt_valence": "high",
+      "pred_quadrant": "HVHA",
+      "pred_arousal": 0.8488344550132751,
+      "pred_valence": 0.8747458457946777,
+      "pred_confidence": 0.8617901504039764,
+      "correct_quadrant": true,
+      "audio_files": {
+        "therapeutic": "HVHA_1_therapeutic.wav",
+        "random": "HVHA_1_random.wav",
+        "fixed_calm": "HVHA_1_fixed_calm.wav",
+        "non_inverted": "HVHA_1_non_inverted.wav"
+      },
+      "prompts": {
+        "therapeutic": "A meditative ambient soundscape with flowing strings and soft nature textures, serene and spacious, around 70 BPM. Gradually calming with gentle harmonic movement and a sense of stillness.",
+        "random": "A lively jazz piece with saxophone and drums, energetic and improvisational",
+        "fixed_calm": "Calm relaxing music",
+        "non_inverted": "A high-energy celebratory piece with bright brass and fast drums, 130 BPM"
+      }
+    },
+    {
+      "sample_idx": 96122,
+      "gt_quadrant": "HVHA",
+      "gt_arousal": "high",
+      "gt_valence": "high",
+      "pred_quadrant": "HVHA",
+      "pred_arousal": 0.9874956011772156,
+      "pred_valence": 0.9948456287384033,
+      "pred_confidence": 0.9911706149578094,
+      "correct_quadrant": true,
+      "audio_files": {
+        "therapeutic": "HVHA_2_therapeutic.wav",
+        "random": "HVHA_2_random.wav",
+        "fixed_calm": "HVHA_2_fixed_calm.wav",
+        "non_inverted": "HVHA_2_non_inverted.wav"
+      },
+      "prompts": {
+        "therapeutic": "A meditative ambient soundscape with flowing strings and soft nature textures, serene and spacious, around 70 BPM. Gradually calming with gentle harmonic movement and a sense of stillness.",
+        "random": "A lively jazz piece with saxophone and drums, energetic and improvisational",
+        "fixed_calm": "Calm relaxing music",
+        "non_inverted": "A high-energy celebratory piece with bright brass and fast drums, 130 BPM"
+      }
+    },
+    {
+      "sample_idx": 4815,
+      "gt_quadrant": "HVLA",
+      "gt_arousal": "low",
+      "gt_valence": "high",
+      "pred_quadrant": "HVLA",
+      "pred_arousal": 0.25522953271865845,
+      "pred_valence": 0.7509488463401794,
+      "pred_confidence": 0.7478596568107605,
+      "correct_quadrant": true,
+      "audio_files": {
+        "therapeutic": "HVLA_0_therapeutic.wav",
+        "random": "HVLA_0_random.wav",
+        "fixed_calm": "HVLA_0_fixed_calm.wav",
+        "non_inverted": "HVLA_0_non_inverted.wav"
+      },
+      "prompts": {
+        "therapeutic": "A soft, contemplative piano piece with subtle ambient pads, maintaining a peaceful and content mood at 80 BPM. Warm and introspective with delicate melodic phrases in a major key.",
+        "random": "A lively jazz piece with saxophone and drums, energetic and improvisational",
+        "fixed_calm": "Calm relaxing music",
+        "non_inverted": "A soft, content ambient piece with gentle pads, relaxed and peaceful, 65 BPM"
+      }
+    },
+    {
+      "sample_idx": 148379,
+      "gt_quadrant": "HVLA",
+      "gt_arousal": "low",
+      "gt_valence": "high",
+      "pred_quadrant": "LVLA",
+      "pred_arousal": 0.49674341082572937,
+      "pred_valence": 0.4341788589954376,
+      "pred_confidence": 0.5345388650894165,
+      "correct_quadrant": false,
+      "audio_files": {
+        "therapeutic": "HVLA_1_therapeutic.wav",
+        "random": "HVLA_1_random.wav",
+        "fixed_calm": "HVLA_1_fixed_calm.wav",
+        "non_inverted": "HVLA_1_non_inverted.wav"
+      },
+      "prompts": {
+        "therapeutic": "A warm, uplifting acoustic guitar melody with gentle percussion and soft strings, hopeful and bright, moderate tempo around 100 BPM. The mood gradually builds with an optimistic, encouraging feel.",
+        "random": "A lively jazz piece with saxophone and drums, energetic and improvisational",
+        "fixed_calm": "Calm relaxing music",
+        "non_inverted": "A slow, melancholic piece with minor key piano, somber and withdrawn, 50 BPM"
+      }
+    },
+    {
+      "sample_idx": 95153,
+      "gt_quadrant": "HVLA",
+      "gt_arousal": "low",
+      "gt_valence": "high",
+      "pred_quadrant": "HVLA",
+      "pred_arousal": 0.0044436585158109665,
+      "pred_valence": 0.611939549446106,
+      "pred_confidence": 0.8037479454651475,
+      "correct_quadrant": true,
+      "audio_files": {
+        "therapeutic": "HVLA_2_therapeutic.wav",
+        "random": "HVLA_2_random.wav",
+        "fixed_calm": "HVLA_2_fixed_calm.wav",
+        "non_inverted": "HVLA_2_non_inverted.wav"
+      },
+      "prompts": {
+        "therapeutic": "A soft, contemplative piano piece with subtle ambient pads, maintaining a peaceful and content mood at 80 BPM. Warm and introspective with delicate melodic phrases in a major key.",
+        "random": "A lively jazz piece with saxophone and drums, energetic and improvisational",
+        "fixed_calm": "Calm relaxing music",
+        "non_inverted": "A soft, content ambient piece with gentle pads, relaxed and peaceful, 65 BPM"
+      }
+    },
+    {
+      "sample_idx": 45949,
+      "gt_quadrant": "LVHA",
+      "gt_arousal": "high",
+      "gt_valence": "low",
+      "pred_quadrant": "LVHA",
+      "pred_arousal": 0.5680146217346191,
+      "pred_valence": 0.02318386733531952,
+      "pred_confidence": 0.7724153771996498,
+      "correct_quadrant": true,
+      "audio_files": {
+        "therapeutic": "LVHA_0_therapeutic.wav",
+        "random": "LVHA_0_random.wav",
+        "fixed_calm": "LVHA_0_fixed_calm.wav",
+        "non_inverted": "LVHA_0_non_inverted.wav"
+      },
+      "prompts": {
+        "therapeutic": "A slow, gentle ambient piece with soft piano and warm synthesizer pads, creating a calm and peaceful atmosphere at 60 BPM in a major key. The texture is smooth and flowing, with no sudden changes.",
+        "random": "A lively jazz piece with saxophone and drums, energetic and improvisational",
+        "fixed_calm": "Calm relaxing music",
+        "non_inverted": "An intense, agitated piece with dissonant chords and fast tempo, conveying anxiety and tension at 140 BPM"
+      }
+    },
+    {
+      "sample_idx": 43939,
+      "gt_quadrant": "LVHA",
+      "gt_arousal": "high",
+      "gt_valence": "low",
+      "pred_quadrant": "LVHA",
+      "pred_arousal": 0.6619237065315247,
+      "pred_valence": 0.45876941084861755,
+      "pred_confidence": 0.6015771478414536,
+      "correct_quadrant": true,
+      "audio_files": {
+        "therapeutic": "LVHA_1_therapeutic.wav",
+        "random": "LVHA_1_random.wav",
+        "fixed_calm": "LVHA_1_fixed_calm.wav",
+        "non_inverted": "LVHA_1_non_inverted.wav"
+      },
+      "prompts": {
+        "therapeutic": "A slow, gentle ambient piece with soft piano and warm synthesizer pads, creating a calm and peaceful atmosphere at 60 BPM in a major key. The texture is smooth and flowing, with no sudden changes.",
+        "random": "A lively jazz piece with saxophone and drums, energetic and improvisational",
+        "fixed_calm": "Calm relaxing music",
+        "non_inverted": "An intense, agitated piece with dissonant chords and fast tempo, conveying anxiety and tension at 140 BPM"
+      }
+    },
+    {
+      "sample_idx": 112575,
+      "gt_quadrant": "LVHA",
+      "gt_arousal": "high",
+      "gt_valence": "low",
+      "pred_quadrant": "HVHA",
+      "pred_arousal": 0.7802489399909973,
+      "pred_valence": 0.712393581867218,
+      "pred_confidence": 0.7463212609291077,
+      "correct_quadrant": false,
+      "audio_files": {
+        "therapeutic": "LVHA_2_therapeutic.wav",
+        "random": "LVHA_2_random.wav",
+        "fixed_calm": "LVHA_2_fixed_calm.wav",
+        "non_inverted": "LVHA_2_non_inverted.wav"
+      },
+      "prompts": {
+        "therapeutic": "A meditative ambient soundscape with flowing strings and soft nature textures, serene and spacious, around 70 BPM. Gradually calming with gentle harmonic movement and a sense of stillness.",
+        "random": "A lively jazz piece with saxophone and drums, energetic and improvisational",
+        "fixed_calm": "Calm relaxing music",
+        "non_inverted": "A high-energy celebratory piece with bright brass and fast drums, 130 BPM"
+      }
+    },
+    {
+      "sample_idx": 7659,
+      "gt_quadrant": "LVLA",
+      "gt_arousal": "low",
+      "gt_valence": "low",
+      "pred_quadrant": "LVHA",
+      "pred_arousal": 0.5648809671401978,
+      "pred_valence": 0.3440210521221161,
+      "pred_confidence": 0.6104299575090408,
+      "correct_quadrant": false,
+      "audio_files": {
+        "therapeutic": "LVLA_0_therapeutic.wav",
+        "random": "LVLA_0_random.wav",
+        "fixed_calm": "LVLA_0_fixed_calm.wav",
+        "non_inverted": "LVLA_0_non_inverted.wav"
+      },
+      "prompts": {
+        "therapeutic": "A slow, gentle ambient piece with soft piano and warm synthesizer pads, creating a calm and peaceful atmosphere at 60 BPM in a major key. The texture is smooth and flowing, with no sudden changes.",
+        "random": "A lively jazz piece with saxophone and drums, energetic and improvisational",
+        "fixed_calm": "Calm relaxing music",
+        "non_inverted": "An intense, agitated piece with dissonant chords and fast tempo, conveying anxiety and tension at 140 BPM"
+      }
+    },
+    {
+      "sample_idx": 111194,
+      "gt_quadrant": "LVLA",
+      "gt_arousal": "low",
+      "gt_valence": "low",
+      "pred_quadrant": "LVLA",
+      "pred_arousal": 0.37761810421943665,
+      "pred_valence": 0.03835618495941162,
+      "pred_confidence": 0.7920128554105759,
+      "correct_quadrant": true,
+      "audio_files": {
+        "therapeutic": "LVLA_1_therapeutic.wav",
+        "random": "LVLA_1_random.wav",
+        "fixed_calm": "LVLA_1_fixed_calm.wav",
+        "non_inverted": "LVLA_1_non_inverted.wav"
+      },
+      "prompts": {
+        "therapeutic": "A warm, uplifting acoustic guitar melody with gentle percussion and soft strings, hopeful and bright, moderate tempo around 100 BPM. The mood gradually builds with an optimistic, encouraging feel.",
+        "random": "A lively jazz piece with saxophone and drums, energetic and improvisational",
+        "fixed_calm": "Calm relaxing music",
+        "non_inverted": "A slow, melancholic piece with minor key piano, somber and withdrawn, 50 BPM"
+      }
+    },
+    {
+      "sample_idx": 69802,
+      "gt_quadrant": "LVLA",
+      "gt_arousal": "low",
+      "gt_valence": "low",
+      "pred_quadrant": "LVLA",
+      "pred_arousal": 0.45631134510040283,
+      "pred_valence": 0.3764478266239166,
+      "pred_confidence": 0.5836204141378403,
+      "correct_quadrant": true,
+      "audio_files": {
+        "therapeutic": "LVLA_2_therapeutic.wav",
+        "random": "LVLA_2_random.wav",
+        "fixed_calm": "LVLA_2_fixed_calm.wav",
+        "non_inverted": "LVLA_2_non_inverted.wav"
+      },
+      "prompts": {
+        "therapeutic": "A warm, uplifting acoustic guitar melody with gentle percussion and soft strings, hopeful and bright, moderate tempo around 100 BPM. The mood gradually builds with an optimistic, encouraging feel.",
+        "random": "A lively jazz piece with saxophone and drums, energetic and improvisational",
+        "fixed_calm": "Calm relaxing music",
+        "non_inverted": "A slow, melancholic piece with minor key piano, somber and withdrawn, 50 BPM"
+      }
+    }
+  ]
+}

@@ -50,3 +50,6 @@ runs/
 
 # External cloned repos (tracked via git submodule or re-cloned)
 external/
+
+# Misc
+.gradio

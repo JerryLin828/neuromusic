@@ -8,6 +8,7 @@ Fully inference-only — no training required.
 from __future__ import annotations
 
 import logging
+import threading
 from pathlib import Path
 from typing import Optional
 
@@ -49,6 +50,7 @@ class MusicGenerator:
         self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
 
         self._model = None
+        self._lock = threading.Lock()
         self._generation_params = dict(
             duration=duration,
             temperature=temperature,
@@ -89,8 +91,8 @@ class MusicGenerator:
             Audio waveform as numpy array, shape (num_samples,).
         """
         logger.info(f"Generating {self.duration}s of audio for prompt: {prompt[:80]}...")
-        wav = self.model.generate([prompt])
-        # wav shape: (batch=1, channels=1, samples)
+        with self._lock:
+            wav = self.model.generate([prompt])
         audio = wav[0, 0].cpu().numpy()
         logger.info(f"Generated audio: {len(audio)} samples at {self.sample_rate} Hz")
         return audio
@@ -98,7 +100,8 @@ class MusicGenerator:
     def generate_batch(self, prompts: list[str]) -> list[np.ndarray]:
         """Generate audio for multiple prompts in a single batch."""
         logger.info(f"Generating batch of {len(prompts)} clips...")
-        wavs = self.model.generate(prompts)
+        with self._lock:
+            wavs = self.model.generate(prompts)
         return [wavs[i, 0].cpu().numpy() for i in range(len(prompts))]
 
     def save_audio(self, audio: np.ndarray, path: str | Path):

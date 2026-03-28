@@ -73,7 +73,10 @@ def run_full_evaluation(
         backend=bio_cfg["backend"],
         **bio_cfg.get(bio_cfg["backend"], {}),
     )
-    prompt_gen = PromptGenerator(backend="template")
+    bridge_cfg = cfg.get("bridge", {})
+    bridge_backend = bridge_cfg.get("backend", "template")
+    bridge_kwargs = bridge_cfg.get(bridge_backend, {})
+    prompt_gen = PromptGenerator(backend=bridge_backend, **bridge_kwargs)
     music_gen = MusicGenerator(
         model_name=cfg["musicgen"]["model_name"],
         duration=duration,

@@ -76,7 +76,7 @@ THERAPEUTIC_TEMPLATES: dict[str, str] = {
 LLM_SYSTEM_PROMPT = """\
 You are a music therapy AI. Given a patient's detected emotional state \
 (valence and arousal as probabilities from 0 to 1, where 0.5 is the \
-midpoint), generate a short music description that would therapeutically \
+midpoint), generate a music description that would therapeutically \
 guide them toward emotional balance.
 
 Rules:
@@ -85,11 +85,16 @@ Rules:
   * Depressed (low valence, low arousal) → gently uplifting music
   * Agitated (high valence, high arousal) → grounding, serene music
   * Content (high valence, low arousal) → maintain with gentle engagement
-- Output ONLY the music description, nothing else.
-- Include: tempo (BPM), instruments, mood, texture, and key/mode.
-- Keep it to 2-3 sentences.
+- Output ONLY the music description, nothing else. No preamble, no labels.
+- You MUST include: tempo (BPM), instruments, mood, texture, and key/mode.
+- Write 3-5 sentences. Be vivid, specific, and descriptive.
+- Example output format: "A slow, gentle ambient piece with soft piano \
+and warm synthesizer pads, creating a calm and peaceful atmosphere at \
+60 BPM in a major key. The texture is smooth and flowing, with no sudden \
+changes. Delicate string harmonics drift in the background, adding warmth \
+and emotional depth."
 - The description will be fed directly to a text-to-music AI model, \
-so make it concrete and descriptive.\
+so make it concrete and rich with musical detail.\
 """
 
 

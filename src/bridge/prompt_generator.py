@@ -173,7 +173,7 @@ class PromptGenerator:
             user_msg,
             generation_config={
                 "temperature": 0.7,
-                "max_output_tokens": 200,
+                "max_output_tokens": 2048,
             },
         )
         return response.text.strip()

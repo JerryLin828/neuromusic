@@ -1,0 +1,376 @@
+{
+  "n_samples": 12,
+  "emotion_classification": {
+    "quadrant_accuracy": "9/12 (75.0%)",
+    "per_sample": [
+      {
+        "idx": 8351,
+        "gt": "HVHA",
+        "pred": "HVHA",
+        "correct": true
+      },
+      {
+        "idx": 126602,
+        "gt": "HVHA",
+        "pred": "HVHA",
+        "correct": true
+      },
+      {
+        "idx": 96122,
+        "gt": "HVHA",
+        "pred": "HVHA",
+        "correct": true
+      },
+      {
+        "idx": 4815,
+        "gt": "HVLA",
+        "pred": "HVLA",
+        "correct": true
+      },
+      {
+        "idx": 148379,
+        "gt": "HVLA",
+        "pred": "LVLA",
+        "correct": false
+      },
+      {
+        "idx": 95153,
+        "gt": "HVLA",
+        "pred": "HVLA",
+        "correct": true
+      },
+      {
+        "idx": 45949,
+        "gt": "LVHA",
+        "pred": "LVHA",
+        "correct": true
+      },
+      {
+        "idx": 43939,
+        "gt": "LVHA",
+        "pred": "LVHA",
+        "correct": true
+      },
+      {
+        "idx": 112575,
+        "gt": "LVHA",
+        "pred": "HVHA",
+        "correct": false
+      },
+      {
+        "idx": 7659,
+        "gt": "LVLA",
+        "pred": "LVHA",
+        "correct": false
+      },
+      {
+        "idx": 111194,
+        "gt": "LVLA",
+        "pred": "LVLA",
+        "correct": true
+      },
+      {
+        "idx": 69802,
+        "gt": "LVLA",
+        "pred": "LVLA",
+        "correct": true
+      }
+    ]
+  },
+  "clap_scores": {
+    "therapeutic": {
+      "mean": 0.49820566177368164,
+      "std": 0.07091788202524185
+    },
+    "random": {
+      "mean": 0.07437274605035782,
+      "std": 0.07453960180282593
+    },
+    "fixed_calm": {
+      "mean": 0.3517596423625946,
+      "std": 0.048367176204919815
+    },
+    "non_inverted": {
+      "mean": 0.21314756572246552,
+      "std": 0.1678621619939804
+    }
+  },
+  "samples": [
+    {
+      "sample_idx": 8351,
+      "gt_quadrant": "HVHA",
+      "gt_arousal": "high",
+      "gt_valence": "high",
+      "pred_quadrant": "HVHA",
+      "pred_arousal": 0.9600022435188293,
+      "pred_valence": 0.9626463651657104,
+      "pred_confidence": 0.9613243043422699,
+      "correct_quadrant": true,
+      "audio_files": {
+        "therapeutic": "HVHA_0_therapeutic.wav",
+        "random": "HVHA_0_random.wav",
+        "fixed_calm": "HVHA_0_fixed_calm.wav",
+        "non_inverted": "HVHA_0_non_inverted.wav"
+      },
+      "prompts": {
+        "therapeutic": "A slow, grounding piece at 70 BPM in C major, featuring warm, fingerpicked acoustic guitar and a spacious, resonant cello. The mood is deeply serene and reflective, offering a sense of calm stability. Its texture is open and uncluttered, with each note given space to breathe, accented by occasional, shimmering chimes that fade gently. Soft, sustained string pads create an ethereal background, promoting a profound sense of peace and stillness.",
+        "random": "A lively jazz piece with saxophone and drums, energetic and improvisational",
+        "fixed_calm": "Calm relaxing music",
+        "non_inverted": "A high-energy celebratory piece with bright brass and fast drums, 130 BPM"
+      }
+    },
+    {
+      "sample_idx": 126602,
+      "gt_quadrant": "HVHA",
+      "gt_arousal": "high",
+      "gt_valence": "high",
+      "pred_quadrant": "HVHA",
+      "pred_arousal": 0.8488344550132751,
+      "pred_valence": 0.8747458457946777,
+      "pred_confidence": 0.8617901504039764,
+      "correct_quadrant": true,
+      "audio_files": {
+        "therapeutic": "HVHA_1_therapeutic.wav",
+        "random": "HVHA_1_random.wav",
+        "fixed_calm": "HVHA_1_fixed_calm.wav",
+        "non_inverted": "HVHA_1_non_inverted.wav"
+      },
+      "prompts": {
+        "therapeutic": "A very slow, deeply grounding ambient piece at 45 BPM, featuring the resonant hum of singing bowls and deep, sustained cello notes. The texture is incredibly spacious and sparse, allowing each sound to gently unfold and decay, creating a sense of vast tranquility. Subtly interwoven are soft, breath-like synthesizer pads and sparse, low piano chords, adding a layer of serene warmth and stability in a contemplative E minor. Each element contributes to a profound sense of quietude, encouraging a release of tension and a return to inner equilibrium.",
+        "random": "A lively jazz piece with saxophone and drums, energetic and improvisational",
+        "fixed_calm": "Calm relaxing music",
+        "non_inverted": "A high-energy celebratory piece with bright brass and fast drums, 130 BPM"
+      }
+    },
+    {
+      "sample_idx": 96122,
+      "gt_quadrant": "HVHA",
+      "gt_arousal": "high",
+      "gt_valence": "high",
+      "pred_quadrant": "HVHA",
+      "pred_arousal": 0.9874956011772156,
+      "pred_valence": 0.9948456287384033,
+      "pred_confidence": 0.9911706149578094,
+      "correct_quadrant": true,
+      "audio_files": {
+        "therapeutic": "HVHA_2_therapeutic.wav",
+        "random": "HVHA_2_random.wav",
+        "fixed_calm": "HVHA_2_fixed_calm.wav",
+        "non_inverted": "HVHA_2_non_inverted.wav"
+      },
+      "prompts": {
+        "therapeutic": "A very slow, deeply grounding piece at 50 BPM, featuring a gently fingerpicked acoustic guitar over warm, sustained ambient pads and a low, resonant cello, creating a profoundly serene and anchoring mood in C Major. The texture is sparse and spacious, with long, smooth sustained notes and delicate arpeggios, allowing each sound to breathe without any sudden shifts or percussive elements. The guitar lines are simple and repetitive, offering a stable melodic anchor, while the pads provide a soft, enveloping backdrop that encourages deep relaxation and mental clarity.",
+        "random": "A lively jazz piece with saxophone and drums, energetic and improvisational",
+        "fixed_calm": "Calm relaxing music",
+        "non_inverted": "A high-energy celebratory piece with bright brass and fast drums, 130 BPM"
+      }
+    },
+    {
+      "sample_idx": 4815,
+      "gt_quadrant": "HVLA",
+      "gt_arousal": "low",
+      "gt_valence": "high",
+      "pred_quadrant": "HVLA",
+      "pred_arousal": 0.25522953271865845,
+      "pred_valence": 0.7509488463401794,
+      "pred_confidence": 0.7478596568107605,
+      "correct_quadrant": true,
+      "audio_files": {
+        "therapeutic": "HVLA_0_therapeutic.wav",
+        "random": "HVLA_0_random.wav",
+        "fixed_calm": "HVLA_0_fixed_calm.wav",
+        "non_inverted": "HVLA_0_non_inverted.wav"
+      },
+      "prompts": {
+        "therapeutic": "A gently flowing and serene piece at 75 BPM, featuring a warm acoustic piano melody accompanied by a rich cello counterpoint. The texture is open and harmonious, with delicate flute phrases weaving through the arrangement. It evokes a feeling of peaceful contentment and subtle optimism in C Major, creating a softly engaging soundscape that encourages sustained tranquility.",
+        "random": "A lively jazz piece with saxophone and drums, energetic and improvisational",
+        "fixed_calm": "Calm relaxing music",
+        "non_inverted": "A soft, content ambient piece with gentle pads, relaxed and peaceful, 65 BPM"
+      }
+    },
+    {
+      "sample_idx": 148379,
+      "gt_quadrant": "HVLA",
+      "gt_arousal": "low",
+      "gt_valence": "high",
+      "pred_quadrant": "LVLA",
+      "pred_arousal": 0.49674341082572937,
+      "pred_valence": 0.4341788589954376,
+      "pred_confidence": 0.5345388650894165,
+      "correct_quadrant": false,
+      "audio_files": {
+        "therapeutic": "HVLA_1_therapeutic.wav",
+        "random": "HVLA_1_random.wav",
+        "fixed_calm": "HVLA_1_fixed_calm.wav",
+        "non_inverted": "HVLA_1_non_inverted.wav"
+      },
+      "prompts": {
+        "therapeutic": "A moderately paced, gently uplifting piece at 92 BPM, featuring warm acoustic guitar strumming, a clear piano melody, and soft, sustained string pads. The mood is hopeful and serene, with a spacious texture that allows each instrument to breathe, creating a sense of gentle encouragement. A bright, yet not overly energetic melody unfolds in D major, carried by the piano, while subtle counter-melodies from a solo cello add emotional depth without heaviness. The overall sound is organic and comforting, designed to slowly lift the spirit and foster a sense of inner peace.",
+        "random": "A lively jazz piece with saxophone and drums, energetic and improvisational",
+        "fixed_calm": "Calm relaxing music",
+        "non_inverted": "A slow, melancholic piece with minor key piano, somber and withdrawn, 50 BPM"
+      }
+    },
+    {
+      "sample_idx": 95153,
+      "gt_quadrant": "HVLA",
+      "gt_arousal": "low",
+      "gt_valence": "high",
+      "pred_quadrant": "HVLA",
+      "pred_arousal": 0.0044436585158109665,
+      "pred_valence": 0.611939549446106,
+      "pred_confidence": 0.8037479454651475,
+      "correct_quadrant": true,
+      "audio_files": {
+        "therapeutic": "HVLA_2_therapeutic.wav",
+        "random": "HVLA_2_random.wav",
+        "fixed_calm": "HVLA_2_fixed_calm.wav",
+        "non_inverted": "HVLA_2_non_inverted.wav"
+      },
+      "prompts": {
+        "therapeutic": "A moderately slow, introspective piece at 75 BPM, designed to gently sustain a feeling of peaceful contentment. Warm, fingerpicked acoustic guitar provides a delicate melodic line over soft, sustained cello pads, creating a smooth and inviting texture. Subtle, brushed percussion offers a gentle rhythmic pulse, preventing stagnation while maintaining a serene atmosphere. The music unfolds in a bright C major, with occasional shimmering glockenspiel accents adding a touch of gentle sparkle and reflective depth.",
+        "random": "A lively jazz piece with saxophone and drums, energetic and improvisational",
+        "fixed_calm": "Calm relaxing music",
+        "non_inverted": "A soft, content ambient piece with gentle pads, relaxed and peaceful, 65 BPM"
+      }
+    },
+    {
+      "sample_idx": 45949,
+      "gt_quadrant": "LVHA",
+      "gt_arousal": "high",
+      "gt_valence": "low",
+      "pred_quadrant": "LVHA",
+      "pred_arousal": 0.5680146217346191,
+      "pred_valence": 0.02318386733531952,
+      "pred_confidence": 0.7724153771996498,
+      "correct_quadrant": true,
+      "audio_files": {
+        "therapeutic": "LVHA_0_therapeutic.wav",
+        "random": "LVHA_0_random.wav",
+        "fixed_calm": "LVHA_0_fixed_calm.wav",
+        "non_inverted": "LVHA_0_non_inverted.wav"
+      },
+      "prompts": {
+        "therapeutic": "A very slow, gentle ambient piece at 65 BPM, featuring soft, sustained piano chords and warm, ethereal synthesizer pads. The texture is smooth and spacious, creating a deeply calming and serene atmosphere in a C major key. Delicate, long-bowed cello and violin melodies weave in and out, adding a sense of gentle comfort and emotional release. There are no sudden movements or sharp attacks, only a continuous, flowing soundscape designed to lull the listener into a state of profound relaxation.",
+        "random": "A lively jazz piece with saxophone and drums, energetic and improvisational",
+        "fixed_calm": "Calm relaxing music",
+        "non_inverted": "An intense, agitated piece with dissonant chords and fast tempo, conveying anxiety and tension at 140 BPM"
+      }
+    },
+    {
+      "sample_idx": 43939,
+      "gt_quadrant": "LVHA",
+      "gt_arousal": "high",
+      "gt_valence": "low",
+      "pred_quadrant": "LVHA",
+      "pred_arousal": 0.6619237065315247,
+      "pred_valence": 0.45876941084861755,
+      "pred_confidence": 0.6015771478414536,
+      "correct_quadrant": true,
+      "audio_files": {
+        "therapeutic": "LVHA_1_therapeutic.wav",
+        "random": "LVHA_1_random.wav",
+        "fixed_calm": "LVHA_1_fixed_calm.wav",
+        "non_inverted": "LVHA_1_non_inverted.wav"
+      },
+      "prompts": {
+        "therapeutic": "A very slow, tranquil ambient piece, set at 65 BPM, designed to deeply calm and soothe. Delicate acoustic piano chords gently float over warm, sustained synthesizer pads, creating an expansive and smooth texture with long, legato phrases. The music unfolds in a peaceful C major, offering a sense of secure serenity, with occasional, soft harp glissandos and subtle, breath-like flute whispers adding to its comforting embrace.",
+        "random": "A lively jazz piece with saxophone and drums, energetic and improvisational",
+        "fixed_calm": "Calm relaxing music",
+        "non_inverted": "An intense, agitated piece with dissonant chords and fast tempo, conveying anxiety and tension at 140 BPM"
+      }
+    },
+    {
+      "sample_idx": 112575,
+      "gt_quadrant": "LVHA",
+      "gt_arousal": "high",
+      "gt_valence": "low",
+      "pred_quadrant": "HVHA",
+      "pred_arousal": 0.7802489399909973,
+      "pred_valence": 0.712393581867218,
+      "pred_confidence": 0.7463212609291077,
+      "correct_quadrant": false,
+      "audio_files": {
+        "therapeutic": "LVHA_2_therapeutic.wav",
+        "random": "LVHA_2_random.wav",
+        "fixed_calm": "LVHA_2_fixed_calm.wav",
+        "non_inverted": "LVHA_2_non_inverted.wav"
+      },
+      "prompts": {
+        "therapeutic": "A slow, deeply grounding piece at 70 BPM in C major, crafted to bring serene stability. Gentle, resonant acoustic piano chords blend seamlessly with warm, sustained cello lines and subtle, airy string pads, creating a smooth, unhurried texture. The spacious arrangement allows each note to breathe, fostering a clear and peaceful atmosphere, occasionally accented by the soft shimmer of distant chimes. This tranquil soundscape gently guides high energy into a state of calm reflection and profound centeredness.",
+        "random": "A lively jazz piece with saxophone and drums, energetic and improvisational",
+        "fixed_calm": "Calm relaxing music",
+        "non_inverted": "A high-energy celebratory piece with bright brass and fast drums, 130 BPM"
+      }
+    },
+    {
+      "sample_idx": 7659,
+      "gt_quadrant": "LVLA",
+      "gt_arousal": "low",
+      "gt_valence": "low",
+      "pred_quadrant": "LVHA",
+      "pred_arousal": 0.5648809671401978,
+      "pred_valence": 0.3440210521221161,
+      "pred_confidence": 0.6104299575090408,
+      "correct_quadrant": false,
+      "audio_files": {
+        "therapeutic": "LVLA_0_therapeutic.wav",
+        "random": "LVLA_0_random.wav",
+        "fixed_calm": "LVLA_0_fixed_calm.wav",
+        "non_inverted": "LVLA_0_non_inverted.wav"
+      },
+      "prompts": {
+        "therapeutic": "A very slow, gentle ambient piece with warm, sustained synthesizer pads and a soft, reverbed piano melody, creating a deeply peaceful and comforting mood in a C major key at 50 BPM. The texture is exceptionally smooth and spacious, with long, overlapping notes that blend seamlessly, devoid of any sharp attacks or sudden shifts. Delicate acoustic guitar arpeggios occasionally shimmer in the background, adding a subtle layer of warmth without disrupting the serene flow. This music encourages deep breathing and a sense of calm, like a gentle sonic embrace, guiding the listener towards profound relaxation.",
+        "random": "A lively jazz piece with saxophone and drums, energetic and improvisational",
+        "fixed_calm": "Calm relaxing music",
+        "non_inverted": "An intense, agitated piece with dissonant chords and fast tempo, conveying anxiety and tension at 140 BPM"
+      }
+    },
+    {
+      "sample_idx": 111194,
+      "gt_quadrant": "LVLA",
+      "gt_arousal": "low",
+      "gt_valence": "low",
+      "pred_quadrant": "LVLA",
+      "pred_arousal": 0.37761810421943665,
+      "pred_valence": 0.03835618495941162,
+      "pred_confidence": 0.7920128554105759,
+      "correct_quadrant": true,
+      "audio_files": {
+        "therapeutic": "LVLA_1_therapeutic.wav",
+        "random": "LVLA_1_random.wav",
+        "fixed_calm": "LVLA_1_fixed_calm.wav",
+        "non_inverted": "LVLA_1_non_inverted.wav"
+      },
+      "prompts": {
+        "therapeutic": "A gentle, flowing piece at 85 BPM, featuring a warm acoustic guitar melody over soft piano chords and subtle, sustained string pads. The mood is gently uplifting and hopeful, with a comforting warmth resonating throughout in a major key. The texture is clear and inviting, gradually building with a sense of quiet optimism without ever becoming overwhelming. Light, brush-like percussion provides a steady, unobtrusive rhythm, guiding the listener towards a brighter, more engaged emotional space.",
+        "random": "A lively jazz piece with saxophone and drums, energetic and improvisational",
+        "fixed_calm": "Calm relaxing music",
+        "non_inverted": "A slow, melancholic piece with minor key piano, somber and withdrawn, 50 BPM"
+      }
+    },
+    {
+      "sample_idx": 69802,
+      "gt_quadrant": "LVLA",
+      "gt_arousal": "low",
+      "gt_valence": "low",
+      "pred_quadrant": "LVLA",
+      "pred_arousal": 0.45631134510040283,
+      "pred_valence": 0.3764478266239166,
+      "pred_confidence": 0.5836204141378403,
+      "correct_quadrant": true,
+      "audio_files": {
+        "therapeutic": "LVLA_2_therapeutic.wav",
+        "random": "LVLA_2_random.wav",
+        "fixed_calm": "LVLA_2_fixed_calm.wav",
+        "non_inverted": "LVLA_2_non_inverted.wav"
+      },
+      "prompts": {
+        "therapeutic": "A gently uplifting and hopeful acoustic composition, set at a moderate 92 BPM in a bright C major key. It features a clear, arpeggiated acoustic guitar melody intertwined with warm, sustained piano chords and delicate, soaring cello lines. The texture is open and luminous, creating a sense of quiet encouragement and gentle ascent, gradually building without ever becoming overwhelming. Subtle glockenspiel highlights add a shimmering, optimistic quality, guiding the listener towards a feeling of serene well-being.",
+        "random": "A lively jazz piece with saxophone and drums, energetic and improvisational",
+        "fixed_calm": "Calm relaxing music",
+        "non_inverted": "A slow, melancholic piece with minor key piano, somber and withdrawn, 50 BPM"
+      }
+    }
+  ]
+}

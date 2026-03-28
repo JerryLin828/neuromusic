@@ -1,0 +1,47 @@
+# Default configuration for the Personalized Soundtrack Generator
+#
+# SETUP STEPS (before running the pipeline):
+#   1. Download DREAMER data: python data/scripts/download_dreamer.py
+#   2. Install deps:          pip install -r requirements.txt
+#   3. Train classifiers:     python -m src.biosignal.train_dreamer --dimension both --model tsception
+#   4. Update checkpoint paths below with the actual best checkpoint paths
+#   5. (Optional) Set GEMINI_API_KEY for the LLM bridge
+#   6. Install audiocraft for MusicGen (GPU machine)
+
+# --- EEG Emotion Classification ---
+biosignal:
+  backend: "dreamer"
+
+  dreamer:
+    model_name: "tsception"  # "tsception", "eegnet", or "dgcnn"
+    # Update these with the best checkpoint paths after training.
+    # The paths below are from a 5-epoch test run; retrain with --max-epochs 50 for production.
+    arousal_checkpoint: "checkpoints/dreamer/arousal/tsception/last.ckpt"
+    valence_checkpoint: "checkpoints/dreamer/valence/tsception/last.ckpt"
+
+# --- LLM Bridge (Emotion -> Music Prompt) ---
+bridge:
+  # Available backends: "template", "gemini"
+  backend: "template"
+
+  gemini:
+    model: "gemini-2.0-flash"
+    # Set GEMINI_API_KEY or GOOGLE_API_KEY environment variable
+
+# --- Music Generation ---
+musicgen:
+  model_name: "facebook/musicgen-small"  # small/medium/large/melody
+  duration: 15  # seconds
+  temperature: 1.0
+  top_k: 250
+  top_p: 0.0
+  cfg_coef: 3.0
+
+# --- Pipeline ---
+pipeline:
+  output_dir: "outputs"
+
+# --- Evaluation ---
+evaluation:
+  num_samples: 50
+  metrics: ["emotion_accuracy", "clap_score"]

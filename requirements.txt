@@ -1,0 +1,30 @@
+# Core
+torch>=2.0
+torchaudio>=2.0
+numpy
+scipy
+matplotlib
+
+# EEG emotion classification
+torcheeg
+pytorch_lightning
+
+# Music generation (install on GPU machine)
+audiocraft
+
+# LLM bridge (Gemini)
+google-generativeai
+
+# Data download
+huggingface_hub
+
+# Demo UI
+gradio
+
+# Evaluation
+scikit-learn
+
+# Utilities
+pyyaml
+tqdm
+pandas

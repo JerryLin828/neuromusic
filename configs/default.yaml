@@ -16,7 +16,7 @@ paths:
   data_dir: "data/raw/dreamer"           # DREAMER dataset root
   checkpoint_dir: "checkpoints/dreamer"   # training output root
   output_dir: "outputs"                   # pipeline output
-  eval_dir: "evaluation/full_eval"        # evaluation output
+  eval_dir: "evaluation/full_eval_with_prompts_100"        # evaluation output
   hf_cache_dir: null                      # HuggingFace cache (null = system default; set for cluster use)
 
 # --- EEG Emotion Classification ---
@@ -61,12 +61,12 @@ musicgen:
 
 # --- Evaluation ---
 evaluation:
-  n_per_quadrant: 3                       # samples per emotion quadrant
+  n_per_quadrant: 100                     # samples per emotion quadrant
   duration: 10.0                          # audio duration for eval (can differ from musicgen.duration)
   seed: 42
 
 # --- Demo ---
 demo:
   port: 7860
-  share: false
+  share: true
   example_samples: [42, 100, 5000, 50000]

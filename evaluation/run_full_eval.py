@@ -5,8 +5,9 @@ Produces:
   1. Audio samples for all 4 emotion quadrants (from real EEG data)
   2. Baseline audio (random prompt, fixed prompt, non-inverted prompt)
   3. CLAP scores comparing our pipeline vs. baselines
-  4. Emotion classification accuracy summary
-  5. A clean JSON report + human-readable summary
+  4. LALM Judge scores — quadrant classification via Gemini (if enabled)
+  5. Emotion classification accuracy summary
+  6. A clean JSON report + human-readable summary
 
 Usage (on GPU machine):
     python -m evaluation.run_full_eval
@@ -16,6 +17,7 @@ Usage (on GPU machine):
 import argparse
 import json
 import logging
+from dataclasses import asdict
 from pathlib import Path
 
 import numpy as np
@@ -162,6 +164,90 @@ def run_full_evaluation(cfg: dict):
             logger.warning(f"  CLAP failed for {cond_name}: {e}")
             clap_results[cond_name] = {"error": str(e)}
 
+    # --- LALM Judge evaluation ---
+    judge_cfg = cfg.get("judge", {})
+    judge_enabled = judge_cfg.get("enabled", False)
+    judge_results_by_cond = {}
+    judge_agg = {}
+
+    if judge_enabled:
+        logger.info(f"\n{'='*50}")
+        logger.info("Running LALM Judge evaluation...")
+
+        from evaluation.lalm_judge import GeminiJudge, TEMPLATE_PROMPT_QUADRANT
+        from evaluation.evaluate import (
+            compute_inversion_rate,
+            compute_prompt_alignment_rate,
+        )
+
+        judge = GeminiJudge.from_config(cfg)
+        max_workers = judge_cfg.get("max_concurrent", 5)
+        conditions = ["therapeutic", "random", "fixed_calm", "non_inverted"]
+
+        # Judge all conditions
+        for cond_name in conditions:
+            audio_paths = [
+                output_dir / r["audio_files"][cond_name] for r in results
+            ]
+            logger.info(f"  Judging {cond_name} ({len(audio_paths)} files)...")
+            cond_results = judge.judge_batch(audio_paths, max_workers=max_workers)
+            judge_results_by_cond[cond_name] = cond_results
+
+        # Compute aggregation metrics for each condition
+        for cond_name in conditions:
+            cond_judge = judge_results_by_cond[cond_name]
+            detected_quads = [r["pred_quadrant"] for r in results]
+
+            # Inversion rate: judged quadrant != detected emotion
+            inv = compute_inversion_rate(cond_judge, detected_quads)
+
+            # Prompt alignment: judged quadrant == prompt's intended quadrant
+            # For therapeutic: use TEMPLATE_PROMPT_QUADRANT[detected] as target
+            # For non_inverted: the prompt matches the detected quadrant
+            # For fixed_calm: always HVLA-ish
+            # For random: always HVHA-ish (jazz, energetic)
+            if cond_name == "therapeutic":
+                prompt_quads = [
+                    TEMPLATE_PROMPT_QUADRANT.get(r["pred_quadrant"], "HVLA")
+                    for r in results
+                ]
+            elif cond_name == "non_inverted":
+                prompt_quads = [r["pred_quadrant"] for r in results]
+            elif cond_name == "fixed_calm":
+                prompt_quads = ["HVLA"] * len(results)
+            elif cond_name == "random":
+                prompt_quads = ["HVHA"] * len(results)
+            else:
+                prompt_quads = ["HVLA"] * len(results)
+
+            align = compute_prompt_alignment_rate(cond_judge, prompt_quads)
+
+            judge_agg[cond_name] = {
+                "inversion_rate": inv,
+                "prompt_alignment": align,
+            }
+
+        # Save per-sample judge results as JSONL
+        jsonl_path = output_dir / "judge_results.jsonl"
+        with open(jsonl_path, "w") as f:
+            for i, r in enumerate(results):
+                for cond_name in conditions:
+                    jr = judge_results_by_cond[cond_name][i]
+                    line = {
+                        "sample_idx": r["sample_idx"],
+                        "condition": cond_name,
+                        "detected_quadrant": r["pred_quadrant"],
+                        "predicted_quadrant": jr.predicted_quadrant,
+                        "reasoning": jr.reasoning,
+                        "option_order": jr.option_order,
+                        "latency_ms": jr.latency_ms,
+                        "error": jr.error,
+                    }
+                    f.write(json.dumps(line, ensure_ascii=False) + "\n")
+        logger.info(f"  Judge results saved to {jsonl_path}")
+    else:
+        logger.info("LALM Judge disabled (set judge.enabled: true in config)")
+
     # --- Emotion classification summary ---
     n_correct = sum(1 for r in results if r["correct_quadrant"])
     n_total = len(results)
@@ -191,6 +277,18 @@ def run_full_evaluation(cfg: dict):
         "samples": results,
     }
 
+    if judge_agg:
+        report["judge_scores"] = {
+            cond: {
+                "inversion_rate": agg["inversion_rate"]["overall"],
+                "prompt_alignment": agg["prompt_alignment"]["overall"],
+                "n_samples": agg["prompt_alignment"]["n_samples"],
+                "n_errors": agg["prompt_alignment"]["n_errors"],
+            }
+            for cond, agg in judge_agg.items()
+        }
+        report["judge_detailed"] = judge_agg
+
     report_path = output_dir / "eval_report.json"
     with open(report_path, "w") as f:
         json.dump(report, f, indent=2)
@@ -212,9 +310,24 @@ def run_full_evaluation(cfg: dict):
         std_s = f"{std:.3f}" if isinstance(std, float) else std
         marker = " <- ours" if cond == "therapeutic" else ""
         print(f"  {cond:<20} {mean_s:>8} {std_s:>8}{marker}")
+
+    if judge_agg:
+        print()
+        print("  LALM Judge (emotion quadrant classification):")
+        print(f"  {'Condition':<20} {'Inversion':>10} {'Alignment':>10}")
+        print(f"  {'-'*40}")
+        for cond in ["therapeutic", "random", "fixed_calm", "non_inverted"]:
+            if cond in judge_agg:
+                inv = judge_agg[cond]["inversion_rate"]["overall"]
+                align = judge_agg[cond]["prompt_alignment"]["overall"]
+                marker = " <- ours" if cond == "therapeutic" else ""
+                print(f"  {cond:<20} {inv:>9.1%} {align:>9.1%}{marker}")
+
     print()
     print(f"  Report: {report_path}")
     print(f"  Audio:  {output_dir}/*.wav")
+    if judge_enabled:
+        print(f"  Judge:  {output_dir}/judge_results.jsonl")
     print(f"{'='*60}")
 
     return report

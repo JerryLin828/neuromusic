@@ -52,5 +52,8 @@ lightning_logs/
 # External cloned repos
 external/
 
+# LALM Judge cache
+outputs/judge_cache/
+
 # Misc
 .gradio

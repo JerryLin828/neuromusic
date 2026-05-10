@@ -5,6 +5,8 @@ Metrics:
   1. Emotion classification accuracy (if ground-truth labels available)
   2. CLAP score — semantic similarity between generated audio and target prompt
   3. Baseline comparisons (random prompt, non-inverted, fixed prompt)
+  4. LALM Judge — quadrant classification via audio language model
+     (see evaluation/lalm_judge.py)
 
 Usage:
     python -m evaluation.evaluate
@@ -176,6 +178,45 @@ def generate_baseline_prompt(baseline_type: str, emotion_quadrant: str = None) -
         raise ValueError(f"Unknown baseline type: {baseline_type}")
 
 
+def compute_pairwise_win_rate(
+    pairwise_results: list,
+    conditions: list[str] | None = None,
+) -> dict:
+    """
+    Compute win rate for each condition from pairwise preference results.
+
+    Args:
+        pairwise_results: List of PairwiseResult from lalm_judge.
+        conditions: List of condition names. If None, inferred from results.
+
+    Returns:
+        Dict with win counts, win rates, and per-condition breakdown.
+    """
+    valid = [r for r in pairwise_results if r.error is None and r.winner]
+    n_errors = len(pairwise_results) - len(valid)
+
+    if conditions is None:
+        conditions = sorted({r.winner for r in valid})
+
+    wins = {c: 0 for c in conditions}
+    for r in valid:
+        if r.winner in wins:
+            wins[r.winner] += 1
+
+    n_valid = len(valid)
+    win_rates = {
+        c: float(wins[c] / n_valid) if n_valid > 0 else 0.0
+        for c in conditions
+    }
+
+    return {
+        "n_samples": n_valid,
+        "n_errors": n_errors,
+        "wins": wins,
+        "win_rates": win_rates,
+    }
+
+
 # ----------------------------------------------------------------
 # Full Evaluation Runner
 # ----------------------------------------------------------------
@@ -231,6 +272,129 @@ def run_evaluation(
     logger.info(f"Evaluation results saved to {output_path}")
 
     return all_results
+
+
+# ----------------------------------------------------------------
+# Metric 3: LALM Judge Aggregation
+# ----------------------------------------------------------------
+
+def compute_inversion_rate(
+    judge_results: list,
+    detected_quadrants: list[str],
+) -> dict:
+    """
+    Compute the fraction of audio clips whose judged quadrant differs
+    from the detected (source) emotion quadrant.
+
+    A high inversion rate for the therapeutic condition means the generated
+    music successfully moved away from the detected emotion — evidence
+    that affective inversion is working.
+
+    Args:
+        judge_results: List of JudgeResult from lalm_judge.
+        detected_quadrants: Detected emotion quadrant per sample (same order).
+
+    Returns:
+        Dict with overall rate, per-quadrant breakdown, and confusion matrix.
+    """
+    from evaluation.lalm_judge import VALID_QUADRANTS
+
+    valid_pairs = [
+        (r, dq) for r, dq in zip(judge_results, detected_quadrants)
+        if r.error is None and r.predicted_quadrant in VALID_QUADRANTS
+    ]
+    n_errors = len(judge_results) - len(valid_pairs)
+
+    if not valid_pairs:
+        return {"overall": 0.0, "n_samples": 0, "n_errors": n_errors}
+
+    n_inverted = sum(1 for r, dq in valid_pairs if r.predicted_quadrant != dq)
+    overall = n_inverted / len(valid_pairs)
+
+    # Per detected-quadrant breakdown
+    per_quadrant = {}
+    for quad in sorted(VALID_QUADRANTS):
+        subset = [(r, dq) for r, dq in valid_pairs if dq == quad]
+        if subset:
+            inv = sum(1 for r, dq in subset if r.predicted_quadrant != dq)
+            per_quadrant[quad] = {
+                "inversion_rate": float(inv / len(subset)),
+                "n_inverted": inv,
+                "n_total": len(subset),
+            }
+
+    # Confusion matrix: detected (row) vs judged (col)
+    quads_sorted = sorted(VALID_QUADRANTS)
+    confusion = {dq: {jq: 0 for jq in quads_sorted} for dq in quads_sorted}
+    for r, dq in valid_pairs:
+        confusion[dq][r.predicted_quadrant] += 1
+
+    return {
+        "overall": float(overall),
+        "n_inverted": n_inverted,
+        "n_samples": len(valid_pairs),
+        "n_errors": n_errors,
+        "per_quadrant": per_quadrant,
+        "confusion_matrix": confusion,
+    }
+
+
+def compute_prompt_alignment_rate(
+    judge_results: list,
+    prompt_quadrants: list[str],
+) -> dict:
+    """
+    Compute the fraction of audio clips whose judged quadrant matches
+    the quadrant that the prompt was intended to describe.
+
+    Args:
+        judge_results: List of JudgeResult from lalm_judge.
+        prompt_quadrants: The intended quadrant of each prompt (same order).
+            For therapeutic prompts, use TEMPLATE_PROMPT_QUADRANT mapping.
+
+    Returns:
+        Dict with overall rate, per-quadrant breakdown, and confusion matrix.
+    """
+    from evaluation.lalm_judge import VALID_QUADRANTS
+
+    valid_pairs = [
+        (r, pq) for r, pq in zip(judge_results, prompt_quadrants)
+        if r.error is None and r.predicted_quadrant in VALID_QUADRANTS
+    ]
+    n_errors = len(judge_results) - len(valid_pairs)
+
+    if not valid_pairs:
+        return {"overall": 0.0, "n_samples": 0, "n_errors": n_errors}
+
+    n_aligned = sum(1 for r, pq in valid_pairs if r.predicted_quadrant == pq)
+    overall = n_aligned / len(valid_pairs)
+
+    # Per target-quadrant breakdown
+    per_quadrant = {}
+    for quad in sorted(VALID_QUADRANTS):
+        subset = [(r, pq) for r, pq in valid_pairs if pq == quad]
+        if subset:
+            aligned = sum(1 for r, pq in subset if r.predicted_quadrant == pq)
+            per_quadrant[quad] = {
+                "alignment_rate": float(aligned / len(subset)),
+                "n_aligned": aligned,
+                "n_total": len(subset),
+            }
+
+    # Confusion matrix: prompt target (row) vs judged (col)
+    quads_sorted = sorted(VALID_QUADRANTS)
+    confusion = {pq: {jq: 0 for jq in quads_sorted} for pq in quads_sorted}
+    for r, pq in valid_pairs:
+        confusion[pq][r.predicted_quadrant] += 1
+
+    return {
+        "overall": float(overall),
+        "n_aligned": n_aligned,
+        "n_samples": len(valid_pairs),
+        "n_errors": n_errors,
+        "per_quadrant": per_quadrant,
+        "confusion_matrix": confusion,
+    }
 
 
 def main():

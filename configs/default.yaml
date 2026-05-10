@@ -65,6 +65,19 @@ evaluation:
   duration: 10.0                          # audio duration for eval (can differ from musicgen.duration)
   seed: 42
 
+# --- LALM Judge (Music Emotion Evaluation) ---
+judge:
+  enabled: true                           # set false to skip judge during eval
+  backend: "gemini"                       # future: "qwen2_audio"
+  model: "gemini-2.5-pro"                # or "gemini-2.5-flash" for lower cost
+  temperature: 0.0                        # deterministic for reproducibility
+  max_retries: 3
+  max_concurrent: 5                       # parallel API calls
+  use_cache: true                         # disk cache to avoid redundant calls
+  invalidate_cache: false                 # set true to force re-evaluation
+  cache_dir: "outputs/judge_cache"
+  prompt_version: "v1"                    # bump when prompt changes to invalidate cache
+
 # --- Demo ---
 demo:
   port: 7860

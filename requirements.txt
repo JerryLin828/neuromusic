@@ -34,6 +34,7 @@ gradio
 
 # Evaluation
 scikit-learn
+tenacity>=8.0.0
 
 # Utilities
 numpy

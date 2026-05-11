@@ -10,7 +10,6 @@ evaluation/*/*.wav
 # Model checkpoints
 *.pth
 *.pt
-*.ckpt
 *.bin
 *.safetensors
 

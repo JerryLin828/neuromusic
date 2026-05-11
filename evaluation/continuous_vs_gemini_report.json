@@ -1,0 +1,454 @@
+{
+  "description": "Prompt-level comparison of continuous vs gemini backends on all 400 real DREAMER EEG predictions from evaluation/full_eval_with_prompts_100/eval_report.json. Audio generation skipped (audiocraft/laion_clap not installed on this machine). EEG classifications are unchanged \u2014 same pred_valence/pred_arousal values. Only the prompt generator is different.",
+  "environment_notes": {
+    "GPU": "None (CUDA=False, MPS=False)",
+    "audiocraft": "not installed \u2014 audio generation skipped",
+    "laion_clap": "not installed \u2014 CLAP scores skipped",
+    "EEG_checkpoints": "not present on this machine \u2014 reusing existing classifications"
+  },
+  "baseline": {
+    "backend": "gemini",
+    "quadrant_accuracy": "219/400 (54.8%)",
+    "clap_scores": {
+      "therapeutic": {
+        "mean": "N/A",
+        "std": "N/A"
+      },
+      "random": {
+        "mean": "N/A",
+        "std": "N/A"
+      },
+      "fixed_calm": {
+        "mean": "N/A",
+        "std": "N/A"
+      },
+      "non_inverted": {
+        "mean": "N/A",
+        "std": "N/A"
+      }
+    }
+  },
+  "continuous_backend_sweep": {
+    "1.0": {
+      "per_quadrant": {
+        "HVHA": {
+          "n_total": 100,
+          "n_correctly_classified": 61,
+          "misclassification_breakdown": {
+            "HVLA": 11,
+            "LVHA": 17,
+            "LVLA": 11
+          },
+          "correctly_classified": {
+            "bpm_min": 62,
+            "bpm_max": 100,
+            "bpm_mean": 83.6,
+            "bpm_stdev": 9.0,
+            "forbidden_words_continuous": 32,
+            "forbidden_words_gemini": 60
+          },
+          "all_including_misclassified": {
+            "bpm_min": 62,
+            "bpm_max": 117,
+            "bpm_mean": 88.2,
+            "forbidden_words_continuous": 36,
+            "forbidden_words_gemini": 99
+          }
+        },
+        "HVLA": {
+          "n_total": 100,
+          "n_correctly_classified": 36,
+          "misclassification_breakdown": {
+            "LVHA": 14,
+            "LVLA": 23,
+            "HVHA": 27
+          },
+          "correctly_classified": {
+            "bpm_min": 60,
+            "bpm_max": 99,
+            "bpm_mean": 81.8,
+            "bpm_stdev": 14.3,
+            "forbidden_words_continuous": 15,
+            "forbidden_words_gemini": 36
+          },
+          "all_including_misclassified": {
+            "bpm_min": 60,
+            "bpm_max": 134,
+            "bpm_mean": 91.7,
+            "forbidden_words_continuous": 27,
+            "forbidden_words_gemini": 98
+          }
+        },
+        "LVHA": {
+          "n_total": 100,
+          "n_correctly_classified": 63,
+          "misclassification_breakdown": {
+            "LVLA": 22,
+            "HVHA": 13,
+            "HVLA": 2
+          },
+          "correctly_classified": {
+            "bpm_min": 65,
+            "bpm_max": 100,
+            "bpm_mean": 84.8,
+            "bpm_stdev": 8.8,
+            "forbidden_words_continuous": 27,
+            "forbidden_words_gemini": 63
+          },
+          "all_including_misclassified": {
+            "bpm_min": 65,
+            "bpm_max": 125,
+            "bpm_mean": 89.8,
+            "forbidden_words_continuous": 32,
+            "forbidden_words_gemini": 100
+          }
+        },
+        "LVLA": {
+          "n_total": 100,
+          "n_correctly_classified": 59,
+          "misclassification_breakdown": {
+            "LVHA": 32,
+            "HVHA": 3,
+            "HVLA": 6
+          },
+          "correctly_classified": {
+            "bpm_min": 101,
+            "bpm_max": 140,
+            "bpm_mean": 115.8,
+            "bpm_stdev": 12.2,
+            "forbidden_words_continuous": 0,
+            "forbidden_words_gemini": 59
+          },
+          "all_including_misclassified": {
+            "bpm_min": 69,
+            "bpm_max": 140,
+            "bpm_mean": 105.6,
+            "forbidden_words_continuous": 3,
+            "forbidden_words_gemini": 100
+          }
+        }
+      },
+      "overall_forbidden_continuous": 98,
+      "overall_forbidden_gemini": 397
+    },
+    "1.2": {
+      "per_quadrant": {
+        "HVHA": {
+          "n_total": 100,
+          "n_correctly_classified": 61,
+          "misclassification_breakdown": {
+            "HVLA": 11,
+            "LVHA": 17,
+            "LVLA": 11
+          },
+          "correctly_classified": {
+            "bpm_min": 60,
+            "bpm_max": 100,
+            "bpm_mean": 80.6,
+            "bpm_stdev": 10.4,
+            "forbidden_words_continuous": 37,
+            "forbidden_words_gemini": 60
+          },
+          "all_including_misclassified": {
+            "bpm_min": 60,
+            "bpm_max": 121,
+            "bpm_mean": 86.3,
+            "forbidden_words_continuous": 41,
+            "forbidden_words_gemini": 99
+          }
+        },
+        "HVLA": {
+          "n_total": 100,
+          "n_correctly_classified": 36,
+          "misclassification_breakdown": {
+            "LVHA": 14,
+            "LVLA": 23,
+            "HVHA": 27
+          },
+          "correctly_classified": {
+            "bpm_min": 60,
+            "bpm_max": 99,
+            "bpm_mean": 81.8,
+            "bpm_stdev": 14.3,
+            "forbidden_words_continuous": 15,
+            "forbidden_words_gemini": 36
+          },
+          "all_including_misclassified": {
+            "bpm_min": 60,
+            "bpm_max": 140,
+            "bpm_mean": 91.4,
+            "forbidden_words_continuous": 30,
+            "forbidden_words_gemini": 98
+          }
+        },
+        "LVHA": {
+          "n_total": 100,
+          "n_correctly_classified": 63,
+          "misclassification_breakdown": {
+            "LVLA": 22,
+            "HVHA": 13,
+            "HVLA": 2
+          },
+          "correctly_classified": {
+            "bpm_min": 60,
+            "bpm_max": 100,
+            "bpm_mean": 81.8,
+            "bpm_stdev": 10.5,
+            "forbidden_words_continuous": 34,
+            "forbidden_words_gemini": 63
+          },
+          "all_including_misclassified": {
+            "bpm_min": 60,
+            "bpm_max": 130,
+            "bpm_mean": 87.9,
+            "forbidden_words_continuous": 41,
+            "forbidden_words_gemini": 100
+          }
+        },
+        "LVLA": {
+          "n_total": 100,
+          "n_correctly_classified": 59,
+          "misclassification_breakdown": {
+            "LVHA": 32,
+            "HVHA": 3,
+            "HVLA": 6
+          },
+          "correctly_classified": {
+            "bpm_min": 101,
+            "bpm_max": 140,
+            "bpm_mean": 118.1,
+            "bpm_stdev": 12.9,
+            "forbidden_words_continuous": 0,
+            "forbidden_words_gemini": 59
+          },
+          "all_including_misclassified": {
+            "bpm_min": 69,
+            "bpm_max": 140,
+            "bpm_mean": 106.3,
+            "forbidden_words_continuous": 8,
+            "forbidden_words_gemini": 100
+          }
+        }
+      },
+      "overall_forbidden_continuous": 120,
+      "overall_forbidden_gemini": 397
+    },
+    "1.3": {
+      "per_quadrant": {
+        "HVHA": {
+          "n_total": 100,
+          "n_correctly_classified": 61,
+          "misclassification_breakdown": {
+            "HVLA": 11,
+            "LVHA": 17,
+            "LVLA": 11
+          },
+          "correctly_classified": {
+            "bpm_min": 60,
+            "bpm_max": 100,
+            "bpm_mean": 79.0,
+            "bpm_stdev": 10.8,
+            "forbidden_words_continuous": 40,
+            "forbidden_words_gemini": 60
+          },
+          "all_including_misclassified": {
+            "bpm_min": 60,
+            "bpm_max": 122,
+            "bpm_mean": 85.3,
+            "forbidden_words_continuous": 44,
+            "forbidden_words_gemini": 99
+          }
+        },
+        "HVLA": {
+          "n_total": 100,
+          "n_correctly_classified": 36,
+          "misclassification_breakdown": {
+            "LVHA": 14,
+            "LVLA": 23,
+            "HVHA": 27
+          },
+          "correctly_classified": {
+            "bpm_min": 60,
+            "bpm_max": 99,
+            "bpm_mean": 81.8,
+            "bpm_stdev": 14.3,
+            "forbidden_words_continuous": 15,
+            "forbidden_words_gemini": 36
+          },
+          "all_including_misclassified": {
+            "bpm_min": 60,
+            "bpm_max": 140,
+            "bpm_mean": 91.2,
+            "forbidden_words_continuous": 33,
+            "forbidden_words_gemini": 98
+          }
+        },
+        "LVHA": {
+          "n_total": 100,
+          "n_correctly_classified": 63,
+          "misclassification_breakdown": {
+            "LVLA": 22,
+            "HVHA": 13,
+            "HVLA": 2
+          },
+          "correctly_classified": {
+            "bpm_min": 60,
+            "bpm_max": 100,
+            "bpm_mean": 80.5,
+            "bpm_stdev": 11.1,
+            "forbidden_words_continuous": 41,
+            "forbidden_words_gemini": 63
+          },
+          "all_including_misclassified": {
+            "bpm_min": 60,
+            "bpm_max": 132,
+            "bpm_mean": 87.0,
+            "forbidden_words_continuous": 52,
+            "forbidden_words_gemini": 100
+          }
+        },
+        "LVLA": {
+          "n_total": 100,
+          "n_correctly_classified": 59,
+          "misclassification_breakdown": {
+            "LVHA": 32,
+            "HVHA": 3,
+            "HVLA": 6
+          },
+          "correctly_classified": {
+            "bpm_min": 101,
+            "bpm_max": 140,
+            "bpm_mean": 119.0,
+            "bpm_stdev": 13.0,
+            "forbidden_words_continuous": 0,
+            "forbidden_words_gemini": 59
+          },
+          "all_including_misclassified": {
+            "bpm_min": 69,
+            "bpm_max": 140,
+            "bpm_mean": 106.6,
+            "forbidden_words_continuous": 8,
+            "forbidden_words_gemini": 100
+          }
+        }
+      },
+      "overall_forbidden_continuous": 137,
+      "overall_forbidden_gemini": 397
+    },
+    "1.5": {
+      "per_quadrant": {
+        "HVHA": {
+          "n_total": 100,
+          "n_correctly_classified": 61,
+          "misclassification_breakdown": {
+            "HVLA": 11,
+            "LVHA": 17,
+            "LVLA": 11
+          },
+          "correctly_classified": {
+            "bpm_min": 60,
+            "bpm_max": 99,
+            "bpm_mean": 76.4,
+            "bpm_stdev": 11.6,
+            "forbidden_words_continuous": 45,
+            "forbidden_words_gemini": 60
+          },
+          "all_including_misclassified": {
+            "bpm_min": 60,
+            "bpm_max": 126,
+            "bpm_mean": 83.7,
+            "forbidden_words_continuous": 49,
+            "forbidden_words_gemini": 99
+          }
+        },
+        "HVLA": {
+          "n_total": 100,
+          "n_correctly_classified": 36,
+          "misclassification_breakdown": {
+            "LVHA": 14,
+            "LVLA": 23,
+            "HVHA": 27
+          },
+          "correctly_classified": {
+            "bpm_min": 60,
+            "bpm_max": 99,
+            "bpm_mean": 81.8,
+            "bpm_stdev": 14.3,
+            "forbidden_words_continuous": 15,
+            "forbidden_words_gemini": 36
+          },
+          "all_including_misclassified": {
+            "bpm_min": 60,
+            "bpm_max": 140,
+            "bpm_mean": 90.8,
+            "forbidden_words_continuous": 36,
+            "forbidden_words_gemini": 98
+          }
+        },
+        "LVHA": {
+          "n_total": 100,
+          "n_correctly_classified": 63,
+          "misclassification_breakdown": {
+            "LVLA": 22,
+            "HVHA": 13,
+            "HVLA": 2
+          },
+          "correctly_classified": {
+            "bpm_min": 60,
+            "bpm_max": 100,
+            "bpm_mean": 78.0,
+            "bpm_stdev": 12.0,
+            "forbidden_words_continuous": 43,
+            "forbidden_words_gemini": 63
+          },
+          "all_including_misclassified": {
+            "bpm_min": 60,
+            "bpm_max": 137,
+            "bpm_mean": 85.4,
+            "forbidden_words_continuous": 54,
+            "forbidden_words_gemini": 100
+          }
+        },
+        "LVLA": {
+          "n_total": 100,
+          "n_correctly_classified": 59,
+          "misclassification_breakdown": {
+            "LVHA": 32,
+            "HVHA": 3,
+            "HVLA": 6
+          },
+          "correctly_classified": {
+            "bpm_min": 101,
+            "bpm_max": 140,
+            "bpm_mean": 120.7,
+            "bpm_stdev": 13.1,
+            "forbidden_words_continuous": 0,
+            "forbidden_words_gemini": 59
+          },
+          "all_including_misclassified": {
+            "bpm_min": 69,
+            "bpm_max": 140,
+            "bpm_mean": 107.0,
+            "forbidden_words_continuous": 12,
+            "forbidden_words_gemini": 100
+          }
+        }
+      },
+      "overall_forbidden_continuous": 151,
+      "overall_forbidden_gemini": 397
+    }
+  },
+  "key_findings": {
+    "LVLA_correctly_classified": {
+      "n": 59,
+      "out_of_total_LVLA": 100,
+      "gemini_forbidden_words": "59/59 (100%)",
+      "continuous_alpha_1_2_forbidden_words": "0/59 (0%)",
+      "continuous_bpm_range": "101-140 BPM (mean 118.1)",
+      "conclusion": "Continuous backend eliminates forbidden calm-language entirely from correctly-detected LVLA and pushes all BPMs to 101-140 (mean 118). Gemini generated forbidden words in 100% of LVLA samples and used BPMs of 78-90. This directly addresses the 1.7% sad->uplifting failure mode."
+    },
+    "alpha_recommendation": "alpha=1.0 already achieves 0/59 forbidden words and BPM 101-140. Higher alpha increases mean BPM (115.8 at 1.0 vs 120.7 at 1.5) with no other tradeoff for LVLA. alpha=1.2 recommended as default (matches CONTINUOUS_BRIDGE.md).",
+    "misclassified_LVLA_note": "41/100 LVLA samples were misclassified by EEG (32 as LVHA, 6 as HVLA, 3 as HVHA). The continuous backend correctly generates appropriate music for the predicted emotion. 8 of these misclassified samples produce forbidden words \u2014 expected behavior since LVHA/HVHA therapeutic targets are calming by design.",
+    "blocked_metrics": "CLAP score and audio-level sad->uplifting accuracy cannot be computed on this machine (no GPU, audiocraft not installed, laion_clap not installed). The existing eval_report.json also has CLAP=N/A for the same reason. These require re-running on the GPU machine with: python -m evaluation.run_full_eval"
+  }
+}

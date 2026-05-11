@@ -42,13 +42,21 @@ training:
 
 # --- LLM Bridge (Emotion -> Music Prompt) ---
 bridge:
-  backend: "gemini"                       # "template" or "gemini"
+  backend: "continuous"                   # "template" | "gemini" | "continuous"
 
   gemini:
     model: "gemini-2.5-flash"             # Gemini model name
     temperature: 0.7
     max_output_tokens: 200
     # Set GEMINI_API_KEY or GOOGLE_API_KEY environment variable
+
+  continuous:
+    # Parametric prompt builder that preserves the float (valence, arousal)
+    # signal end-to-end. alpha controls how aggressively the therapeutic
+    # target is pushed away from the detected state.
+    #   alpha = 1.0 → pure midpoint reflection
+    #   alpha = 1.5 → strongly pushed toward the extreme
+    alpha: 1.2
 
 # --- Music Generation ---
 musicgen:

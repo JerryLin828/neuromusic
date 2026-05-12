@@ -1,0 +1,34 @@
+# Baseline eval config: template bridge backend at 100 samples/quadrant.
+# Run with:  python -m evaluation.run_full_eval --config configs/eval_template_baseline.yaml
+# Results land in evaluation/full_eval_template_100/ so they never overwrite
+# the continuous-backend results.
+
+paths:
+  data_dir: "data/raw/dreamer"
+  checkpoint_dir: "checkpoints/dreamer"
+  output_dir: "outputs"
+  eval_dir: "evaluation/full_eval_template_100"
+  hf_cache_dir: null
+
+biosignal:
+  backend: "dreamer"
+  dreamer:
+    model_name: "tsception"
+    arousal_checkpoint: "checkpoints/dreamer/arousal/tsception/best.ckpt"
+    valence_checkpoint: "checkpoints/dreamer/valence/tsception/best.ckpt"
+
+bridge:
+  backend: "template"
+
+musicgen:
+  model_name: "facebook/musicgen-small"
+  duration: 15
+  temperature: 1.0
+  top_k: 250
+  top_p: 0.0
+  cfg_coef: 3.0
+
+evaluation:
+  n_per_quadrant: 100
+  duration: 10.0
+  seed: 42

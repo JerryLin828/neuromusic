@@ -1,0 +1,266 @@
+{
+  "therapeutic": {
+    "inversion_rate": 0.78,
+    "prompt_alignment": 0.6475,
+    "n_samples": 400,
+    "n_errors": 0,
+    "inversion_per_quadrant": {
+      "HVHA": {
+        "inversion_rate": 0.99,
+        "n_inverted": 99,
+        "n_total": 100
+      },
+      "HVLA": {
+        "inversion_rate": 0.24,
+        "n_inverted": 24,
+        "n_total": 100
+      },
+      "LVHA": {
+        "inversion_rate": 0.97,
+        "n_inverted": 97,
+        "n_total": 100
+      },
+      "LVLA": {
+        "inversion_rate": 0.92,
+        "n_inverted": 92,
+        "n_total": 100
+      }
+    },
+    "alignment_per_quadrant": {
+      "HVHA": {
+        "alignment_rate": 0.32,
+        "n_aligned": 32,
+        "n_total": 100
+      },
+      "HVLA": {
+        "alignment_rate": 0.7566666666666667,
+        "n_aligned": 227,
+        "n_total": 300
+      }
+    },
+    "confusion_matrix": {
+      "HVHA": {
+        "HVHA": 1,
+        "HVLA": 78,
+        "LVHA": 1,
+        "LVLA": 20
+      },
+      "HVLA": {
+        "HVHA": 13,
+        "HVLA": 76,
+        "LVHA": 2,
+        "LVLA": 9
+      },
+      "LVHA": {
+        "HVHA": 6,
+        "HVLA": 73,
+        "LVHA": 3,
+        "LVLA": 18
+      },
+      "LVLA": {
+        "HVHA": 32,
+        "HVLA": 60,
+        "LVHA": 0,
+        "LVLA": 8
+      }
+    }
+  },
+  "random": {
+    "inversion_rate": 0.76,
+    "prompt_alignment": 0.855,
+    "n_samples": 400,
+    "n_errors": 0,
+    "inversion_per_quadrant": {
+      "HVHA": {
+        "inversion_rate": 0.16,
+        "n_inverted": 16,
+        "n_total": 100
+      },
+      "HVLA": {
+        "inversion_rate": 0.97,
+        "n_inverted": 97,
+        "n_total": 100
+      },
+      "LVHA": {
+        "inversion_rate": 0.92,
+        "n_inverted": 92,
+        "n_total": 100
+      },
+      "LVLA": {
+        "inversion_rate": 0.99,
+        "n_inverted": 99,
+        "n_total": 100
+      }
+    },
+    "alignment_per_quadrant": {
+      "HVHA": {
+        "alignment_rate": 0.855,
+        "n_aligned": 342,
+        "n_total": 400
+      }
+    },
+    "confusion_matrix": {
+      "HVHA": {
+        "HVHA": 84,
+        "HVLA": 5,
+        "LVHA": 11,
+        "LVLA": 0
+      },
+      "HVLA": {
+        "HVHA": 88,
+        "HVLA": 3,
+        "LVHA": 9,
+        "LVLA": 0
+      },
+      "LVHA": {
+        "HVHA": 84,
+        "HVLA": 3,
+        "LVHA": 8,
+        "LVLA": 5
+      },
+      "LVLA": {
+        "HVHA": 86,
+        "HVLA": 1,
+        "LVHA": 12,
+        "LVLA": 1
+      }
+    }
+  },
+  "fixed_calm": {
+    "inversion_rate": 0.7725,
+    "prompt_alignment": 0.7225,
+    "n_samples": 400,
+    "n_errors": 0,
+    "inversion_per_quadrant": {
+      "HVHA": {
+        "inversion_rate": 0.98,
+        "n_inverted": 98,
+        "n_total": 100
+      },
+      "HVLA": {
+        "inversion_rate": 0.35,
+        "n_inverted": 35,
+        "n_total": 100
+      },
+      "LVHA": {
+        "inversion_rate": 0.98,
+        "n_inverted": 98,
+        "n_total": 100
+      },
+      "LVLA": {
+        "inversion_rate": 0.78,
+        "n_inverted": 78,
+        "n_total": 100
+      }
+    },
+    "alignment_per_quadrant": {
+      "HVLA": {
+        "alignment_rate": 0.7225,
+        "n_aligned": 289,
+        "n_total": 400
+      }
+    },
+    "confusion_matrix": {
+      "HVHA": {
+        "HVHA": 2,
+        "HVLA": 78,
+        "LVHA": 2,
+        "LVLA": 18
+      },
+      "HVLA": {
+        "HVHA": 1,
+        "HVLA": 65,
+        "LVHA": 3,
+        "LVLA": 31
+      },
+      "LVHA": {
+        "HVHA": 1,
+        "HVLA": 75,
+        "LVHA": 2,
+        "LVLA": 22
+      },
+      "LVLA": {
+        "HVHA": 2,
+        "HVLA": 71,
+        "LVHA": 5,
+        "LVLA": 22
+      }
+    }
+  },
+  "non_inverted": {
+    "inversion_rate": 0.5325,
+    "prompt_alignment": 0.4675,
+    "n_samples": 400,
+    "n_errors": 0,
+    "inversion_per_quadrant": {
+      "HVHA": {
+        "inversion_rate": 0.38,
+        "n_inverted": 38,
+        "n_total": 100
+      },
+      "HVLA": {
+        "inversion_rate": 0.72,
+        "n_inverted": 72,
+        "n_total": 100
+      },
+      "LVHA": {
+        "inversion_rate": 0.45,
+        "n_inverted": 45,
+        "n_total": 100
+      },
+      "LVLA": {
+        "inversion_rate": 0.58,
+        "n_inverted": 58,
+        "n_total": 100
+      }
+    },
+    "alignment_per_quadrant": {
+      "HVHA": {
+        "alignment_rate": 0.62,
+        "n_aligned": 62,
+        "n_total": 100
+      },
+      "HVLA": {
+        "alignment_rate": 0.28,
+        "n_aligned": 28,
+        "n_total": 100
+      },
+      "LVHA": {
+        "alignment_rate": 0.55,
+        "n_aligned": 55,
+        "n_total": 100
+      },
+      "LVLA": {
+        "alignment_rate": 0.42,
+        "n_aligned": 42,
+        "n_total": 100
+      }
+    },
+    "confusion_matrix": {
+      "HVHA": {
+        "HVHA": 62,
+        "HVLA": 4,
+        "LVHA": 16,
+        "LVLA": 18
+      },
+      "HVLA": {
+        "HVHA": 28,
+        "HVLA": 28,
+        "LVHA": 15,
+        "LVLA": 29
+      },
+      "LVHA": {
+        "HVHA": 18,
+        "HVLA": 10,
+        "LVHA": 55,
+        "LVLA": 17
+      },
+      "LVLA": {
+        "HVHA": 6,
+        "HVLA": 22,
+        "LVHA": 30,
+        "LVLA": 42
+      }
+    }
+  }
+}

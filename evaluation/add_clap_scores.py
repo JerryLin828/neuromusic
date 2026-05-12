@@ -73,14 +73,29 @@ def add_clap_scores(eval_dir: Path) -> None:
             clap_results[cond] = {"mean": "N/A", "std": "N/A", "error": "no audio files"}
             continue
 
-        logger.info(f"  {cond}: scoring {len(audio_paths)} files...")
-        audio_emb = model.get_audio_embedding_from_filelist(audio_paths, use_tensor=True)
-        text_emb  = model.get_text_embedding(prompts, use_tensor=True)
+        batch_size = 32
+        logger.info(f"  {cond}: scoring {len(audio_paths)} files (batch_size={batch_size})...")
+
+        audio_emb_parts = []
+        for i in range(0, len(audio_paths), batch_size):
+            batch = audio_paths[i : i + batch_size]
+            emb = model.get_audio_embedding_from_filelist(batch, use_tensor=True)
+            audio_emb_parts.append(emb.detach().cpu())
+            torch.cuda.empty_cache()
+        audio_emb = torch.cat(audio_emb_parts, dim=0)
+
+        text_emb_parts = []
+        for i in range(0, len(prompts), batch_size):
+            batch = prompts[i : i + batch_size]
+            emb = model.get_text_embedding(batch, use_tensor=True)
+            text_emb_parts.append(emb.detach().cpu())
+            torch.cuda.empty_cache()
+        text_emb = torch.cat(text_emb_parts, dim=0)
 
         audio_emb = torch.nn.functional.normalize(audio_emb, dim=-1)
         text_emb  = torch.nn.functional.normalize(text_emb, dim=-1)
 
-        scores = torch.sum(audio_emb * text_emb, dim=-1).detach().cpu().numpy()
+        scores = torch.sum(audio_emb * text_emb, dim=-1).numpy()
 
         clap_results[cond] = {
             "mean": float(np.mean(scores)),

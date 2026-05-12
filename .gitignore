@@ -56,3 +56,4 @@ outputs/judge_cache/
 
 # Misc
 .gradio
+local_docs

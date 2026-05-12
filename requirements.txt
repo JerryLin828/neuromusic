@@ -22,12 +22,14 @@
 # (torcheeg NOT needed — model architectures are vendored in src/biosignal/models.py)
 pytorch_lightning
 mne
+braindecode
 
 # LLM bridge (Gemini)
 google-generativeai
 
 # Data download
 huggingface_hub
+zarr
 
 # Demo UI
 gradio

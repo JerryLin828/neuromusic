@@ -2,6 +2,7 @@
 data/raw/
 data/processed/
 checkpoints/dreamer/arousal/eegnet
+checkpoints/faced/
 
 # Test Samples
 *.npy
@@ -57,3 +58,6 @@ outputs/judge_cache/
 # Misc
 .gradio
 local_docs
+CLAUDE.md
+src/biosignal/autorun_research.sh
+src/biosignal/autoresearch_task.md

@@ -2,13 +2,13 @@
   "n_samples": 400,
   "n_errors": 0,
   "wins": {
-    "therapeutic": 196,
-    "non_inverted": 48,
-    "fixed_calm": 156
+    "therapeutic": 173,
+    "non_inverted": 82,
+    "fixed_calm": 145
   },
   "win_rates": {
-    "therapeutic": 0.49,
-    "non_inverted": 0.12,
-    "fixed_calm": 0.39
+    "therapeutic": 0.4325,
+    "non_inverted": 0.205,
+    "fixed_calm": 0.3625
   }
 }

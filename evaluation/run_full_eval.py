@@ -194,25 +194,24 @@ def run_full_evaluation(cfg: dict):
             judge_results_by_cond[cond_name] = cond_results
 
         # Compute aggregation metrics for each condition
+        # Use ground-truth quadrant (not predicted) to determine the
+        # therapeutic target, so evaluation is independent of classifier errors.
         for cond_name in conditions:
             cond_judge = judge_results_by_cond[cond_name]
-            detected_quads = [r["pred_quadrant"] for r in results]
+            gt_quads = [r["gt_quadrant"] for r in results]
 
-            # Inversion rate: judged quadrant != detected emotion
-            inv = compute_inversion_rate(cond_judge, detected_quads)
+            # Inversion rate: judged quadrant != ground-truth emotion
+            inv = compute_inversion_rate(cond_judge, gt_quads)
 
-            # Prompt alignment: judged quadrant == prompt's intended quadrant
-            # For therapeutic: use TEMPLATE_PROMPT_QUADRANT[detected] as target
-            # For non_inverted: the prompt matches the detected quadrant
-            # For fixed_calm: always HVLA-ish
-            # For random: always HVHA-ish (jazz, energetic)
+            # Prompt alignment: judged quadrant == therapeutic target quadrant
+            # Target is determined by ground-truth emotion via TEMPLATE_PROMPT_QUADRANT
             if cond_name == "therapeutic":
                 prompt_quads = [
-                    TEMPLATE_PROMPT_QUADRANT.get(r["pred_quadrant"], "HVLA")
+                    TEMPLATE_PROMPT_QUADRANT.get(r["gt_quadrant"], "HVLA")
                     for r in results
                 ]
             elif cond_name == "non_inverted":
-                prompt_quads = [r["pred_quadrant"] for r in results]
+                prompt_quads = [r["gt_quadrant"] for r in results]
             elif cond_name == "fixed_calm":
                 prompt_quads = ["HVLA"] * len(results)
             elif cond_name == "random":
@@ -236,7 +235,8 @@ def run_full_evaluation(cfg: dict):
                     line = {
                         "sample_idx": r["sample_idx"],
                         "condition": cond_name,
-                        "detected_quadrant": r["pred_quadrant"],
+                        "gt_quadrant": r["gt_quadrant"],
+                        "pred_quadrant": r["pred_quadrant"],
                         "predicted_quadrant": jr.predicted_quadrant,
                         "reasoning": jr.reasoning,
                         "option_order": jr.option_order,

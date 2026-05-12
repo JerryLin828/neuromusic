@@ -1,90 +1,95 @@
 {
   "therapeutic": {
-    "inversion_rate": 0.8325,
-    "prompt_alignment": 0.78,
+    "inversion_rate": 0.7425,
+    "prompt_alignment": 0.58,
     "n_samples": 400,
     "n_errors": 0,
     "inversion_per_quadrant": {
       "HVHA": {
         "inversion_rate": 1.0,
-        "n_inverted": 104,
-        "n_total": 104
+        "n_inverted": 100,
+        "n_total": 100
       },
       "HVLA": {
-        "inversion_rate": 0.07272727272727272,
-        "n_inverted": 4,
-        "n_total": 55
+        "inversion_rate": 0.13,
+        "n_inverted": 13,
+        "n_total": 100
       },
       "LVHA": {
-        "inversion_rate": 0.9285714285714286,
-        "n_inverted": 117,
-        "n_total": 126
+        "inversion_rate": 0.96,
+        "n_inverted": 96,
+        "n_total": 100
       },
       "LVLA": {
-        "inversion_rate": 0.9391304347826087,
-        "n_inverted": 108,
-        "n_total": 115
+        "inversion_rate": 0.88,
+        "n_inverted": 88,
+        "n_total": 100
       }
     },
     "alignment_per_quadrant": {
       "HVLA": {
-        "alignment_rate": 0.78,
-        "n_aligned": 312,
-        "n_total": 400
+        "alignment_rate": 0.7666666666666667,
+        "n_aligned": 230,
+        "n_total": 300
+      },
+      "HVHA": {
+        "alignment_rate": 0.02,
+        "n_aligned": 2,
+        "n_total": 100
       }
     },
     "confusion_matrix": {
       "HVHA": {
         "HVHA": 0,
         "HVLA": 67,
-        "LVHA": 1,
-        "LVLA": 36
+        "LVHA": 2,
+        "LVLA": 31
       },
       "HVLA": {
         "HVHA": 0,
-        "HVLA": 51,
+        "HVLA": 87,
         "LVHA": 0,
-        "LVLA": 4
+        "LVLA": 13
       },
       "LVHA": {
         "HVHA": 0,
-        "HVLA": 88,
-        "LVHA": 9,
-        "LVLA": 29
+        "HVLA": 76,
+        "LVHA": 4,
+        "LVLA": 20
       },
       "LVLA": {
         "HVHA": 2,
-        "HVLA": 106,
-        "LVHA": 0,
-        "LVLA": 7
+        "HVLA": 82,
+        "LVHA": 4,
+        "LVLA": 12
       }
     }
   },
   "random": {
-    "inversion_rate": 0.7325,
+    "inversion_rate": 0.7725,
     "prompt_alignment": 0.8625,
     "n_samples": 400,
     "n_errors": 0,
     "inversion_per_quadrant": {
       "HVHA": {
-        "inversion_rate": 0.125,
-        "n_inverted": 13,
-        "n_total": 104
+        "inversion_rate": 0.19,
+        "n_inverted": 19,
+        "n_total": 100
       },
       "HVLA": {
-        "inversion_rate": 0.9818181818181818,
-        "n_inverted": 54,
-        "n_total": 55
+        "inversion_rate": 0.96,
+        "n_inverted": 96,
+        "n_total": 100
       },
       "LVHA": {
-        "inversion_rate": 0.8888888888888888,
-        "n_inverted": 112,
-        "n_total": 126
+        "inversion_rate": 0.94,
+        "n_inverted": 94,
+        "n_total": 100
       },
       "LVLA": {
-        "inversion_rate": 0.991304347826087,
-        "n_inverted": 114,
-        "n_total": 115
+        "inversion_rate": 1.0,
+        "n_inverted": 100,
+        "n_total": 100
       }
     },
     "alignment_per_quadrant": {
@@ -96,56 +101,56 @@
     },
     "confusion_matrix": {
       "HVHA": {
-        "HVHA": 91,
-        "HVLA": 3,
-        "LVHA": 9,
-        "LVLA": 1
-      },
-      "HVLA": {
-        "HVHA": 48,
-        "HVLA": 1,
-        "LVHA": 5,
-        "LVLA": 1
-      },
-      "LVHA": {
-        "HVHA": 106,
-        "HVLA": 5,
+        "HVHA": 81,
+        "HVLA": 4,
         "LVHA": 14,
         "LVLA": 1
       },
-      "LVLA": {
-        "HVHA": 100,
+      "HVLA": {
+        "HVHA": 85,
         "HVLA": 4,
         "LVHA": 10,
         "LVLA": 1
+      },
+      "LVHA": {
+        "HVHA": 90,
+        "HVLA": 2,
+        "LVHA": 6,
+        "LVLA": 2
+      },
+      "LVLA": {
+        "HVHA": 89,
+        "HVLA": 3,
+        "LVHA": 8,
+        "LVLA": 0
       }
     }
   },
   "fixed_calm": {
-    "inversion_rate": 0.8125,
+    "inversion_rate": 0.7475,
     "prompt_alignment": 0.71,
     "n_samples": 400,
     "n_errors": 0,
     "inversion_per_quadrant": {
       "HVHA": {
-        "inversion_rate": 0.9519230769230769,
-        "n_inverted": 99,
-        "n_total": 104
+        "inversion_rate": 0.95,
+        "n_inverted": 95,
+        "n_total": 100
       },
       "HVLA": {
-        "inversion_rate": 0.34545454545454546,
-        "n_inverted": 19,
-        "n_total": 55
+        "inversion_rate": 0.28,
+        "n_inverted": 28,
+        "n_total": 100
       },
       "LVHA": {
-        "inversion_rate": 0.9841269841269841,
-        "n_inverted": 124,
-        "n_total": 126
+        "inversion_rate": 0.99,
+        "n_inverted": 99,
+        "n_total": 100
       },
       "LVLA": {
-        "inversion_rate": 0.7217391304347827,
-        "n_inverted": 83,
-        "n_total": 115
+        "inversion_rate": 0.77,
+        "n_inverted": 77,
+        "n_total": 100
       }
     },
     "alignment_per_quadrant": {
@@ -158,103 +163,103 @@
     "confusion_matrix": {
       "HVHA": {
         "HVHA": 5,
-        "HVLA": 73,
-        "LVHA": 5,
-        "LVLA": 21
+        "HVLA": 66,
+        "LVHA": 6,
+        "LVLA": 23
       },
       "HVLA": {
-        "HVHA": 0,
-        "HVLA": 36,
-        "LVHA": 4,
-        "LVLA": 15
-      },
-      "LVHA": {
-        "HVHA": 3,
-        "HVLA": 96,
+        "HVHA": 1,
+        "HVLA": 72,
         "LVHA": 2,
         "LVLA": 25
       },
+      "LVHA": {
+        "HVHA": 1,
+        "HVLA": 76,
+        "LVHA": 1,
+        "LVLA": 22
+      },
       "LVLA": {
-        "HVHA": 0,
-        "HVLA": 79,
-        "LVHA": 4,
-        "LVLA": 32
+        "HVHA": 1,
+        "HVLA": 70,
+        "LVHA": 6,
+        "LVLA": 23
       }
     }
   },
   "non_inverted": {
-    "inversion_rate": 0.2125,
-    "prompt_alignment": 0.7875,
+    "inversion_rate": 0.545,
+    "prompt_alignment": 0.455,
     "n_samples": 400,
     "n_errors": 0,
     "inversion_per_quadrant": {
       "HVHA": {
-        "inversion_rate": 0.0,
-        "n_inverted": 0,
-        "n_total": 104
+        "inversion_rate": 0.36,
+        "n_inverted": 36,
+        "n_total": 100
       },
       "HVLA": {
-        "inversion_rate": 0.3090909090909091,
-        "n_inverted": 17,
-        "n_total": 55
+        "inversion_rate": 0.69,
+        "n_inverted": 69,
+        "n_total": 100
       },
       "LVHA": {
-        "inversion_rate": 0.15873015873015872,
-        "n_inverted": 20,
-        "n_total": 126
+        "inversion_rate": 0.47,
+        "n_inverted": 47,
+        "n_total": 100
       },
       "LVLA": {
-        "inversion_rate": 0.41739130434782606,
-        "n_inverted": 48,
-        "n_total": 115
+        "inversion_rate": 0.66,
+        "n_inverted": 66,
+        "n_total": 100
       }
     },
     "alignment_per_quadrant": {
       "HVHA": {
-        "alignment_rate": 1.0,
-        "n_aligned": 104,
-        "n_total": 104
+        "alignment_rate": 0.64,
+        "n_aligned": 64,
+        "n_total": 100
       },
       "HVLA": {
-        "alignment_rate": 0.6909090909090909,
-        "n_aligned": 38,
-        "n_total": 55
+        "alignment_rate": 0.31,
+        "n_aligned": 31,
+        "n_total": 100
       },
       "LVHA": {
-        "alignment_rate": 0.8412698412698413,
-        "n_aligned": 106,
-        "n_total": 126
+        "alignment_rate": 0.53,
+        "n_aligned": 53,
+        "n_total": 100
       },
       "LVLA": {
-        "alignment_rate": 0.5826086956521739,
-        "n_aligned": 67,
-        "n_total": 115
+        "alignment_rate": 0.34,
+        "n_aligned": 34,
+        "n_total": 100
       }
     },
     "confusion_matrix": {
       "HVHA": {
-        "HVHA": 104,
-        "HVLA": 0,
-        "LVHA": 0,
-        "LVLA": 0
+        "HVHA": 64,
+        "HVLA": 12,
+        "LVHA": 15,
+        "LVLA": 9
       },
       "HVLA": {
-        "HVHA": 0,
-        "HVLA": 38,
-        "LVHA": 5,
-        "LVLA": 12
+        "HVHA": 28,
+        "HVLA": 31,
+        "LVHA": 17,
+        "LVLA": 24
       },
       "LVHA": {
-        "HVHA": 13,
-        "HVLA": 3,
-        "LVHA": 106,
-        "LVLA": 4
+        "HVHA": 19,
+        "HVLA": 12,
+        "LVHA": 53,
+        "LVLA": 16
       },
       "LVLA": {
-        "HVHA": 0,
-        "HVLA": 45,
-        "LVHA": 3,
-        "LVLA": 67
+        "HVHA": 6,
+        "HVLA": 31,
+        "LVHA": 29,
+        "LVLA": 34
       }
     }
   }
